@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.power.common.dao.DeviceDao">
+	
+	<sql id="deviceColumns">
+		s.ID AS sbbId,
+		sbb_name AS sbbName,
+		sbb_position AS sbbPosition,
+		sbb_type AS sbbType,
+		longitude AS longitude,
+		latitude AS latitude,
+		lot_name AS internetNo,
+		install_date AS createDate,
+		area_id AS qyId,
+		monitoring_type AS monitoringType,
+		reveive_no AS reveiveNo,
+		name AS qyName
+	</sql>
+ <select id="get" resultType="com.power.common.entity.DeviceEntity">
+       select 
+       <include refid="deviceColumns"/>
+       FROM tb_device s 
+        LEFT JOIN sys_area o ON s.area_ID=o.id
+        WHERE  s.ID=#{id}
+	</select>
+	<select id="findAllList" resultType="com.power.common.entity.DeviceEntity">
+       select  ID AS sbbId,
+		sbb_name AS sbbName,
+		sbb_position AS sbbPosition,
+		sbb_type AS sbbType,
+		longitude AS longitude,
+		latitude AS latitude,
+		lot_name AS internetNo,
+		install_date AS createDate
+		 FROM tb_device WHERE sbb_name is not null
+		 AND del_flag='0'
+	</select>
+    <select id="findListByUser" resultType="com.power.common.entity.DeviceEntity">
+        select  d.ID AS sbbId,
+        d.sbb_name AS sbbName,
+        d.sbb_position AS sbbPosition,
+        d.sbb_type AS sbbType,
+        d.longitude AS longitude,
+        d.latitude AS latitude,
+        d.lot_name AS internetNo,
+        d.install_date AS createDate
+        FROM tb_device d
+        LEFT JOIN sys_user_device s ON cast(d.id as varchar(36)) = s.device_id
+        LEFT JOIN sys_user u ON u.id = s.user_id
+        WHERE d.sbb_name is not null
+        and u.login_name = #{userId}
+        AND d.del_flag='0'
+    </select>
+    <select id="findByUser" resultType="com.power.common.entity.UserDevice">
+        SELECT device_id AS deviceId,user_id AS userId, device_type AS deviceType
+        FROM sys_user_device
+        WHERE user_id = #{id}
+            </select>
+    <select id="findList" resultType="com.power.common.entity.DeviceEntity">
+       select  <include refid="deviceColumns"/> FROM tb_device s
+       LEFT JOIN sys_area o ON s.area_ID=o.id
+        WHERE s.del_flag='0'
+        <if test="sbbName != null and sbbName != ''">
+         AND   sbb_name LIKE  '%'+#{sbbName}+'%'
+        </if>
+        <if test="sbbPosition != null and sbbPosition != ''">
+         AND   sbb_position LIKE  '%'+#{sbbPosition}+'%'
+        </if>
+        <if test="sbbType != null and sbbType != ''">
+         AND   sbb_type LIKE  '%'+#{sbbType}+'%'
+        </if>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+	</select>
+	<delete id="delete">
+	   update tb_device
+	   set del_flag='1'
+	   WHERE  ID=#{sbbId}
+	</delete>
+    <delete id="deleteDevices">
+        delete from sys_user_device
+        WHERE  user_id=#{id}
+    </delete>
+    <insert id="insertDevices">
+        insert into sys_user_device(
+
+          device_id,
+           user_id,
+          device_type
+        )values
+	  (
+
+          #{deviceId},
+            #{userId},
+          #{deviceType}
+	  )
+
+     </insert>
+	<insert id="insert">
+	  insert into tb_device
+	  (sbb_name,
+	  qy_id,
+	  longitude,
+	  latitude,
+	  lot_name,
+	  sbb_position,
+	  sbb_type,
+	  install_date,
+	  area_ID,
+	  reveive_no,
+	  monitoring_type)
+	  values
+	  (
+	  #{sbbName},
+	  'C04502AF-4AC5-4278-BAFB-9D6803484491',
+	  #{longitude},
+	   #{latitude},
+	   #{internetNo},
+	   #{sbbPosition},
+	   #{sbbType},
+	    #{createDate},
+	     #{qyId},
+	     #{reveiveNo},
+	      #{monitoringType}
+	  )
+	</insert>
+	<update id="update">
+	update tb_device set
+	sbb_name=#{sbbName},
+	 reveive_no= #{reveiveNo},
+  longitude=  #{longitude},
+  latitude=   #{latitude},
+  lot_name=   #{internetNo},
+  sbb_position=   #{sbbPosition},
+  sbb_type=   #{sbbType},
+  install_date=    #{createDate},
+  area_ID=     #{qyId},
+  monitoring_type=      #{monitoringType}
+  WHERE  ID=#{sbbId}
+	</update>
+</mapper>

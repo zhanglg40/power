@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.power.data.dao.IchnographyDeviceDao">
+    
+	<sql id="ichnographyDeviceColumns">
+		a.id AS "id",
+		t.name AS "ichnographyName",
+		s.sbb_name AS "sbbName",
+		a.ichnography_id AS "ichnographyId",
+		a.sbb_id AS "sbbId",
+		a.x_axes_start AS xAxesStart,
+		a.y_axes_start AS "yAxesStart",
+		a.x_axes_end AS "xAxesEnd",
+		a.y_axes_end AS "yAxesEnd",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.del_flag AS "delFlag",
+		t.url,
+		s.longitude,
+		s.latitude,
+		s.sbb_type AS sbbType,
+		s.install_date AS installDate
+		
+	</sql>
+	
+	<sql id="ichnographyDeviceJoins">
+	LEFT JOIN tb_device s ON s.id=a.sbb_id
+	LEFT JOIN tb_ichnography t ON t.id=a.ichnography_id
+	</sql>
+    
+	<select id="get" resultType="IchnographyDevice">
+		SELECT 
+			<include refid="ichnographyDeviceColumns"/>
+		FROM tb_ichnography_device a
+		<include refid="ichnographyDeviceJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="com.power.data.entity.IchnographyDevice">
+		SELECT 
+			<include refid="ichnographyDeviceColumns"/>
+		FROM tb_ichnography_device a
+		<include refid="ichnographyDeviceJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="ichnographyName != null and ichnographyName != ''">
+				AND a.ichnography_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{ichnographyName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{ichnographyName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{ichnographyName},'%')</if>
+			</if>
+			<if test="sbbName != null and sbbName != ''">
+				AND a.sbb_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{sbbName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{sbbName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{sbbName},'%')</if>
+			</if>
+			<if test="ichnographyId != null and ichnographyId != ''">
+				AND a.ichnography_id = #{ichnographyId}
+			</if>
+			<if test="sbbId != null and sbbId != ''">
+				AND a.sbb_id = #{sbbId}
+			</if>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="IchnographyDevice">
+		SELECT 
+			<include refid="ichnographyDeviceColumns"/>
+		FROM tb_ichnography_device a
+		<include refid="ichnographyDeviceJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO tb_ichnography_device(
+			
+			ichnography_id,
+			sbb_id,
+			x_axes_start,
+			y_axes_start,
+			x_axes_end,
+			y_axes_end,
+			create_by,
+			create_date,
+			del_flag
+		) VALUES (
+			
+			#{ichnographyId},
+			#{sbbId},
+			#{xAxesStart},
+			#{yAxesStart},
+			#{xAxesEnd},
+			#{yAxesEnd},
+			#{createBy.id},
+			#{createDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE tb_ichnography_device SET 	
+			ichnography_id = #{ichnographyId},
+			sbb_id = #{sbbId},
+			x_axes_start = #{xAxesStart},
+			y_axes_start = #{yAxesStart},
+			x_axes_end = #{xAxesEnd},
+			y_axes_end = #{yAxesEnd}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE tb_ichnography_device SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

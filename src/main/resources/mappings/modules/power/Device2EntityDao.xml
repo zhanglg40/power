@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.power.common.dao.Device2EntityDao">
+    
+	<sql id="device2EntityColumns">
+		a.id AS "id",
+		a.sbb_name AS "sbbName",
+		a.sbb_id AS "sbbId",
+		a.area_id AS "area.id",
+		a.monitoring_type AS "monitoringType",
+		a.del_flag AS "delFlag",
+		a.remarks AS "remarks",
+		a.area_id1 AS "areaId1",
+		a.area_id2 AS "areaId2",
+		a.install_date AS "installDate",
+		a4.name AS "area.name",
+		a8.name As "areaName1",
+		a9.name As "areaName2",
+		case when a.monitoring_type='SW' then '水位'
+		when a.monitoring_type='FC' then '粉尘'
+		end typeName
+	</sql>
+	
+	<sql id="device2EntityJoins">
+		LEFT JOIN sys_area a4 ON a4.id = a.area_id
+		LEFT JOIN tb_device_area a8 ON a8.code = a.area_id1
+		LEFT JOIN tb_device_area a9 ON a9.code = a.area_id2
+	</sql>
+    
+	<select id="get" resultType="Device2Entity">
+		SELECT 
+			<include refid="device2EntityColumns"/>
+		FROM tb_device2 a
+		<include refid="device2EntityJoins"/>
+		WHERE  cast(a.id as varchar(36)) = #{id}
+	</select>
+	<select id="getBySbbId" resultType="Device2Entity">
+		SELECT 
+			<include refid="device2EntityColumns"/>
+		FROM tb_device2 a
+		<include refid="device2EntityJoins"/>
+		WHERE a.sbb_id = #{sbbId}
+	</select>
+	<select id="findList" resultType="Device2Entity">
+		SELECT 
+			<include refid="device2EntityColumns"/>
+		FROM tb_device2 a
+		<include refid="device2EntityJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="sbbName != null and sbbName != ''">
+				AND a.sbb_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{sbbName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{sbbName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{sbbName},'%')</if>
+			</if>
+			<if test="area != null and area.id != null and area.id != ''">
+				AND a.area_id = #{area.id}
+			</if>
+			<if test="monitoringType != null and monitoringType != ''">
+				AND a.monitoring_type = #{monitoringType}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+    <select id="findListByUser" resultType="com.power.common.entity.Device2Entity">
+        select  d.ID AS sbbId,
+        d.sbb_name AS sbbName,
+        d.area_id1 AS "areaId1",
+		d.area_id2 AS "areaId2",
+		d.monitoring_type AS "monitoringType",
+        d.install_date AS createDate
+        FROM tb_device2 d
+        LEFT JOIN sys_user_device s ON d.sbb_ID = s.device_id
+        LEFT JOIN sys_user u ON u.id = s.user_id
+        WHERE d.sbb_name is not null
+        and u.login_name = #{userId}
+        AND d.del_flag='0'
+    </select>
+	<select id="findAllList" resultType="Device2Entity">
+		SELECT 
+			<include refid="device2EntityColumns"/>
+		FROM tb_device2 a
+		<include refid="device2EntityJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO tb_device2(
+			id,
+			sbb_name,
+			sbb_id,
+			area_id,
+			monitoring_type,
+			del_flag,
+			remarks,
+			area_id1,
+			area_id2,
+			install_date
+		) VALUES (
+			#{id},
+			#{sbbName},
+			#{sbbId},
+			#{area.id},
+			#{monitoringType},
+			#{delFlag},
+			#{remarks},
+			#{areaId1},
+			#{areaId2},
+			#{installDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE tb_device2 SET 	
+			sbb_name = #{sbbName},
+			sbb_id = #{sbbId},
+			area_id = #{area.id},
+			monitoring_type = #{monitoringType},
+			remarks = #{remarks},
+			area_id1 = #{areaId1},
+			area_id2 = #{areaId2},
+			install_date = #{installDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE tb_device2 SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.power.data.dao.AlertDao">
+	
+
+
+	<select id="findList" resultType="com.power.data.entity.AlertEntity">
+      SELECT 
+      s.id,
+         s.sbb_ID ,
+         alert_time,
+         s.sbb_type,
+         s.alert_type,
+		sbb_name sbbName,
+        case when s.del_flag =0 then '未处理'
+		else '已处理' END delName
+		FROM tb_alert_data s
+		LEFT JOIN tb_device t ON t.ID=s.sbb_ID
+        LEFT JOIN sys_user_device d ON d.device_id =  cast(s.sbb_ID as varchar(36))
+        LEFT JOIN sys_user su ON su.id = d.user_id
+        WHERE 1=1
+        <if test="sbbId != null and sbbId !=''">
+          AND s.sbb_ID= #{sbbId}
+        </if>
+         <if test="dateFrom != null and dateFrom !=''">
+          AND s.alert_time <![CDATA[>=]]> #{dateFrom}
+        </if>
+          <if test="delFlag != null and delFlag !=''">
+          AND s.del_flag = #{delFlag}
+        </if>
+        <if test="createBy != null and createBy.loginName != null and createBy.loginName != ''">
+            AND su.login_name  = #{createBy.loginName}
+        </if>
+        <if test="dateTo != null and dateTo !=''">
+          AND s.alert_time <![CDATA[<=]]> #{dateTo}
+        </if>
+        order by alert_time desc
+	</select>
+
+    <select id="findAlert" resultType="com.power.data.entity.AlertEntity">
+    SELECT
+    s.id,
+    s.sbb_ID ,
+    alert_time,
+    s.sbb_type,
+    s.alert_type,
+    sbb_name sbbName,
+    t.reveive_no
+    FROM tb_alert_data s
+    LEFT JOIN tb_device t ON t.ID=s.sbb_ID
+    LEFT JOIN sys_user_device d ON d.device_id =  cast(s.sbb_ID as varchar(36))
+    LEFT JOIN sys_user su ON su.id = d.user_id
+    where rvc <![CDATA[<>]]> '1'
+    AND  alert_time <![CDATA[>=]]> dateadd(mi, #{sendTime},getdate())
+    </select>
+    <select id="findAlertCount" resultType="Integer">
+        SELECT COUNT(1)  FROM tb_alert_data s
+        where s.sbb_ID=#{sbbId}
+           AND  alert_time <![CDATA[>=]]> dateadd(mi,-30,getdate())
+           AND del_flag='0'
+     </select>
+    <select id="getAlertPie" resultType="Map">
+     with b as (select d.del_flag,d.sbb_type,alert_type,sbb_name from tb_alert_data d
+      LEFT JOIN tb_device t on d.sbb_ID=t.id
+        LEFT JOIN sys_user_device s ON s.device_id = cast(d.sbb_ID as varchar(36))
+        LEFT JOIN sys_user su ON su.id = s.user_id
+         <if test="createBy != null and createBy.loginName != null and createBy.loginName != ''">
+             where su.login_name  = #{createBy.loginName}
+         </if>
+   )
+     SELECT COUNT(1) y ,${alertType} name from b
+ GROUP BY ${alertType}
+  
+        
+</select>
+<update id="update">
+   update tb_alert_data
+   set del_flag=#{delFlag}
+   where id=#{id}
+</update>
+    <update id="updateStatus">
+   update tb_alert_data
+   set rvc='1'
+</update>
+
+<select id="phoneList"  resultType="string">
+    SELECT u.mobile FROM sys_user_device d
+    LEFT JOIN sys_user u on d.user_id=u.id
+    where d.device_type=1
+    AND device_id=#{sbbId}
+    and u.send_flag='1'
+    and LEN(u.mobile)=11
+</select>
+
+</mapper>

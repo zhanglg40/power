@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sms.dao.SmsSetDao">
+	
+   
+	<select id="get" resultType="com.sms.entity.SmsSetEntity">
+		SELECT
+			*
+		FROM tb_sms_set a
+		
+	</select>
+
+	
+	<update id="update">
+		UPDATE tb_sms_set  SET 
+			receive_no = #{receiveNo}, 
+			left_count = #{leftCount}, 
+			sms_content = #{smsContent}, 
+			send_time = #{sendTime}
+	</update>
+	
+	
+</mapper>

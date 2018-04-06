@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.power.data.dao.PowerDataDao">
+	
+
+
+	<select id="findList" resultType="com.power.data.entity.PowerDataEntity">
+      SELECT 
+         s.sbb_ID ,
+                    temperature_A temperatureA,temperature_B temperatureB,temperature_C temperatureC,temperature_N temperatureN,
+		current_A currentA,
+		current_B currentB,
+		current_C currentC,
+		voltage_A voltageA,
+		voltage_B voltageB,
+		voltage_C voltageC,
+		electrical_degree electricalDegree,
+		leakage_electricity leakageElectricity,
+		sbb_name sbbName,
+		create_date createDate
+		FROM tb_real_data s
+		LEFT JOIN tb_device t ON t.ID=s.sbb_ID
+        WHERE 1=1
+        <if test="sbbId != null and sbbId !=''">
+          AND s.sbb_ID= #{sbbId}
+        </if>
+        order by create_date desc
+	</select>
+	
+	<select id="findApiList" resultType="com.power.data.entity.PowerDataEntity">
+      SELECT TOP 20 
+         s.sbb_ID ,
+                    temperature_A temperatureA,temperature_B temperatureB,temperature_C temperatureC,temperature_N temperatureN,
+		current_A currentA,
+		current_B currentB,
+		current_C currentC,
+		voltage_A voltageA,
+		voltage_B voltageB,
+		voltage_C voltageC,
+		electrical_degree electricalDegree,
+		leakage_electricity leakageElectricity,
+		sbb_name sbbName,
+		create_date createDate
+		FROM tb_real_data s
+		LEFT JOIN tb_device t ON t.ID=s.sbb_ID
+        WHERE 1=1
+        <if test="sbbId != null and sbbId !=''">
+          AND s.sbb_ID= #{sbbId}
+        </if>
+		<if test="dateFrom != null and dateFrom !=''">
+			AND  create_date <![CDATA[>=]]> #{dateFrom}
+		</if>
+		<if test="dateTo != null and dateTo !=''">
+			AND  create_date <![CDATA[<=]]> #{dateTo}
+		</if>
+        order by create_date desc
+	</select>
+	
+<select id="getLastData" resultType="com.power.data.entity.PowerDataEntity">
+      SELECT TOP 1
+         s.sbb_ID ,
+                    temperature_A temperatureA,temperature_B temperatureB,temperature_C temperatureC,temperature_N temperatureN,
+		current_A currentA,
+		current_B currentB,
+		current_C currentC,
+		voltage_A voltageA,
+		voltage_B voltageB,
+		voltage_C voltageC,
+		electrical_degree electricalDegree,
+		leakage_electricity leakageElectricity,
+		sbb_name sbbName,
+		create_date createDate
+		FROM tb_real_data s
+		LEFT JOIN tb_device t ON t.ID=s.sbb_ID
+        WHERE 1=1
+       
+          AND s.sbb_ID= #{sbbId}
+      
+        order by create_date desc
+	</select>
+</mapper>

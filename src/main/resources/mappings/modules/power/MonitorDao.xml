@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.power.contrast.dao.MonitorDao">
+	
+
+
+	<select id="findList" resultType="com.power.contrast.entity.ShowDataEntity">
+       select * from tb_real_data where sbb_ID=#{sbbId} and (create_date <![CDATA[>]]> #{dayFrom} and create_date <![CDATA[<=]]> #{dayTo})
+       order by create_date 
+	</select>
+	
+</mapper>

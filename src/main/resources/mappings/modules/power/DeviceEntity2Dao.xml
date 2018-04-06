@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.power.common.dao.DeviceEntity2Dao">
+    
+	<sql id="deviceEntity2Columns">
+		a.id AS "id",
+		a.sbb_name AS "sbbName",
+		a.sbb_id AS "sbbId",
+		a.install_date AS "installDate",
+		a.area_id AS "area.id",
+		a.monitoring_type AS "monitoringType",
+		a.del_flag AS "delFlag",
+		a.remarks AS "remarks",
+		a.area_id1 AS "areaId1",
+		a.area_id2 AS "areaId2",
+		a5.name AS "area.name"
+	</sql>
+	
+	<sql id="deviceEntity2Joins">
+		LEFT JOIN sys_area a5 ON a5.id = a.area_id
+		LEFT JOIN sys_area a9 ON a9.id = a.area_id1
+		LEFT JOIN sys_area a10 ON a10.id = a.area_id2
+	</sql>
+    
+	<select id="get" resultType="DeviceEntity2">
+		SELECT 
+			<include refid="deviceEntity2Columns"/>
+		FROM tb_device2 a
+		<include refid="deviceEntity2Joins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="DeviceEntity2">
+		SELECT 
+			<include refid="deviceEntity2Columns"/>
+		FROM tb_device2 a
+		<include refid="deviceEntity2Joins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="sbbName != null and sbbName != ''">
+				AND a.sbb_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{sbbName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{sbbName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{sbbName},'%')</if>
+			</if>
+			<if test="area != null and area.id != null and area.id != ''">
+				AND a.area_id = #{area.id}
+			</if>
+			<if test="monitoringType != null and monitoringType != ''">
+				AND a.monitoring_type = #{monitoringType}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="DeviceEntity2">
+		SELECT 
+			<include refid="deviceEntity2Columns"/>
+		FROM tb_device2 a
+		<include refid="deviceEntity2Joins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO tb_device2(
+			
+			sbb_name,
+			sbb_id,
+			install_date,
+			area_id,
+			monitoring_type,
+			del_flag,
+			remarks,
+			area_id1,
+			area_id2
+		) VALUES (
+			
+			#{sbbName},
+			#{sbbId},
+			#{installDate},
+			#{area.id},
+			#{monitoringType},
+			#{delFlag},
+			#{remarks},
+			#{areaId1},
+			#{areaId2}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE tb_device2 SET 	
+			sbb_name = #{sbbName},
+			sbb_id = #{sbbId},
+			install_date = #{installDate},
+			area_id = #{area.id},
+			monitoring_type = #{monitoringType},
+			remarks = #{remarks},
+			area_id1 = #{areaId1},
+			area_id2 = #{areaId2}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE tb_device2 SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

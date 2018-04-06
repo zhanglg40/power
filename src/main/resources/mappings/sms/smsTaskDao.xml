@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sms.dao.SmsTaskDao">
+	
+    <sql id="TaskColumns">
+    	a.id,
+    	a.key_word,
+    	a.place,
+    	a.place_type,
+    	a.total_quantity,
+    	a.planned_quantity,
+    	a.processing_quantity,
+    	a.begin_time,
+    	a.end_time,
+    	a.status,
+    	a.remarks,
+    	a.create_by,
+    	a.create_date,
+    	a.update_by,
+    	a.update_date,
+    	a.delFlag 
+    </sql>
+    <sql id="TableName">
+    	sms_task a
+    </sql>
+    
+	<!-- 分页查询用户信息 -->
+	<select id="findList" resultType="com.sms.entity.SmsTask">
+		SELECT
+			<include refid="TaskColumns"/>
+		FROM 
+			<include refid="TableName"/>
+		WHERE 1=1 
+		<if test="id != null">
+			AND (id = #{id})
+		</if>
+		<if test="keyWord != null">
+			AND (key_word = #{keyWord} OR key_word LIKE CONCAT('%', #{keyWord}, '%'))
+		</if>
+		<if test="place != null">
+			AND (place = #{place} OR place LIKE CONCAT('%', #{place}, '%'))
+		</if>
+		<if test="status != null">
+			AND (status = #{status} OR status LIKE CONCAT('%', #{status}, '%'))
+		</if>
+		order by id desc
+	</select>
+	<!-- 查询单个用户信息 -->
+	<select id="get" resultType="com.sms.entity.SmsTask">
+		SELECT
+			<include refid="TaskColumns"/>
+		FROM sms_task a
+		WHERE id = #{id}
+	</select>
+
+	<insert id="insert">
+		INSERT INTO 
+		sms_task
+		(
+			key_word, 
+			place, 
+			place_type, 
+			total_quantity, 
+			processing_quantity, 
+			begin_time, 
+			end_time, 
+			status, 
+			remarks, 
+			create_by, 
+			create_date, 
+			update_by, 
+			update_date, 
+			delFlag 
+		) VALUES (
+			#{keyWord}, 
+			#{place}, 
+			#{placeType}, 
+			#{totalQuantity}, 
+			#{processingQuantity}, 
+			#{beginTime}, 
+			#{endTime}, 
+			#{status}, 
+			#{remarks}, 
+			#{createBy.id}, 
+			#{createDate}, 
+			#{updateBy.id}, 
+			#{updateDate}, 
+			#{delFlag}
+		)
+	</insert>
+
+
+	<update id="update">
+		UPDATE <include refid="TableName"/> SET 
+			a.key_word = #{keyWord}, 
+			a.place = #{place}, 
+			a.place_type = #{placeType}, 
+			a.total_quantity = #{totalQuantity}, 
+			a.planned_quantity = #{plannedQuantity}, 
+			a.processing_quantity = #{processingQuantity}, 
+			a.begin_time = #{beginTime}, 
+			a.end_time = #{endTime}, 
+			a.status = #{status}, 
+			a.remarks = #{remarks}, 
+			a.create_by = #{createBy.id}, 
+			a.create_date = #{createDate}, 
+			a.update_by = #{updateBy.id}, 
+			a.update_date = #{updateDate}, 
+			a.delFlag  = #{delFlag} 
+		WHERE id = #{id}
+	</update>
+	<insert id="insertLog" >
+		INSERT INTO
+		sms_search_log
+		(
+			search_word,
+			place,
+			place_type,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			delFlag
+		) VALUES (
+			#{keyWord},
+			#{place},
+			#{placeType},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+</mapper>

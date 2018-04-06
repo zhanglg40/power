@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sys.dao.AlertManageDao">
+    
+	<sql id="alertManageColumns">
+		a.id AS "id",
+		a.alert_type AS "alertType",
+		a.value AS "value",
+		a.tips AS "tips",
+		a.remark AS "remark"
+	</sql>
+	
+	<sql id="alertManageJoins">
+	</sql>
+    
+	<select id="get" resultType="AlertManage">
+		SELECT 
+			<include refid="alertManageColumns"/>
+		FROM tb_alert_manage a
+		<include refid="alertManageJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="AlertManage">
+		SELECT 
+			<include refid="alertManageColumns"/>
+		FROM tb_alert_manage a
+		<include refid="alertManageJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="AlertManage">
+		SELECT 
+			<include refid="alertManageColumns"/>
+		FROM tb_alert_manage a
+		<include refid="alertManageJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO tb_alert_manage(
+			alert_type,
+			value,
+			tips,
+			remark
+		) VALUES (
+			#{alertType},
+			#{value},
+			#{tips},
+			#{remark}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE tb_alert_manage SET 	
+			value = #{value},
+			tips = #{tips}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM tb_alert_manage
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

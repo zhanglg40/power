@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.power.monitoring.dao.MonitoringDataDao">
+    
+	<sql id="monitoringDataColumns">
+		a.id AS "id",
+		a.sbb_id AS "sbbId",
+		a.monitoring_data AS "monitoringData",
+		a.create_date AS "createDate",
+		a.type AS "type",
+		a.area_id AS "areaId",
+		d.sbb_name AS sbbName,
+		a6.name AS areaName,
+		case when a.type='SW' then '水位'
+		when a.type='FC' then '粉尘'
+		end monitoringType
+	</sql>
+	 
+	<sql id="monitoringDataJoins">
+		LEFT JOIN tb_device_area a6 ON a6.code = a.area_id
+		LEFT JOIN tb_device2 d ON d.sbb_ID=a.sbb_ID
+	</sql>
+    
+	<select id="get" resultType="MonitoringData">
+		SELECT 
+			<include refid="monitoringDataColumns"/>
+		FROM tb_monitoring_data a
+		<include refid="monitoringDataJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="MonitoringData">
+		SELECT 
+			<include refid="monitoringDataColumns"/>
+		FROM tb_monitoring_data a
+        LEFT JOIN sys_user_device s ON a.sbb_ID = s.device_id
+        LEFT JOIN sys_user su ON su.id = s.user_id
+        <include refid="monitoringDataJoins"/>
+		<where>
+			
+			<if test="sbbId != null and sbbId != ''">
+				AND a.sbb_id = #{sbbId}
+			</if>
+			<if test="beginCreateDate != null and endCreateDate != null and beginCreateDate != '' and endCreateDate != ''">
+				AND (a.create_date <![CDATA[>]]> #{beginCreateDate} AND a.create_date <![CDATA[<=]]> #{endCreateDate})
+			</if>
+			<if test="type != null and type != ''">
+				AND a.type = #{type}
+			</if>
+            <if test="createBy != null and createBy.id != null and createBy.id != ''">
+                AND su.id  = #{createBy.id}
+            </if>
+			<if test="areaId != null and areaId != ''">
+				AND a.area_id = #{areaId}
+			</if>
+		</where>
+			<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			ORDER BY a.create_date
+			</otherwise>
+		</choose>
+				
+			
+	</select>
+	
+	<select id="findAllList" resultType="MonitoringData">
+		SELECT 
+			<include refid="monitoringDataColumns"/>
+		FROM tb_monitoring_data a
+		<include refid="monitoringDataJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="getMainMonthList" resultType="MonitoringData">
+		SELECT year(create_date) years, MONTH(create_date) months,DAY(create_date) days ,
+		 cast(AVG(cast(monitoring_data as numeric(5,2)))as numeric(5,2)) monitoringData
+
+		FROM tb_monitoring_data s
+		where (s.create_date between #{beginCreateDate} AND #{endCreateDate})  and s.sbb_id=#{sbbId}
+		group by year(create_date), MONTH(create_date),DAY(create_date)
+		ORDER BY year(create_date),MONTH(create_date),DAY(create_date)
+
+	</select>
+	
+</mapper>

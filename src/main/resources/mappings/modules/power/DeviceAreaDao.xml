@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.power.common.dao.DeviceAreaDao">
+    
+	<sql id="deviceAreaColumns">
+		a.id AS "id",
+		a.name AS "name",
+		a.sort AS "sort",
+		a.code AS "code",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="deviceAreaJoins">
+	</sql>
+    <select id="getByCode" resultType="DeviceArea">
+    SELECT 
+			<include refid="deviceAreaColumns"/>
+		FROM tb_device_area a
+		<include refid="deviceAreaJoins"/>
+		WHERE a.code = #{code}
+    </select>
+	<select id="get" resultType="DeviceArea">
+		SELECT 
+			<include refid="deviceAreaColumns"/>
+		FROM tb_device_area a
+		<include refid="deviceAreaJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="DeviceArea">
+		SELECT 
+			<include refid="deviceAreaColumns"/>
+		FROM tb_device_area a
+		<include refid="deviceAreaJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="DeviceArea">
+		SELECT 
+			<include refid="deviceAreaColumns"/>
+		FROM tb_device_area a
+		<include refid="deviceAreaJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO tb_device_area(
+			
+			name,
+			sort,
+			code,
+			create_by,
+			create_date,
+			remarks,
+			del_flag
+		) VALUES (
+			
+			#{name},
+			#{sort},
+			#{code},
+			#{createBy.id},
+			#{createDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE tb_device_area SET 	
+			name = #{name},
+			sort = #{sort},
+			code = #{code},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE tb_device_area SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.power.gap.dao.GapDao">
+	
+
+
+	<select id="getDayList" resultType="com.power.gap.entity.GapEntity">
+         with b as (SELECT datediff( hour, #{checkDate}, create_date ) AS hours,electrical_degree AS electricalDegree,sbb_name AS sbbName FROM tb_real_data s
+         left join tb_device t ON s.sbb_id=t.id 
+          WHERE datediff(day,create_date,#{checkDate})=0
+ and s.sbb_id=#{sbbId}  )  SELECT min(electricalDegree) AS electricalDegree,hours,sbbName from b GROUP BY hours,sbbName ORDER BY hours
+	</select>
+	<select id="getMonthList" resultType="com.power.gap.entity.GapEntity">
+ with b as (SELECT CONVERT(varchar(100), s.create_date, 23) checkDate,electrical_degree AS electricalDegree,sbb_name AS sbbName  
+ FROM tb_real_data s 
+ left join tb_device t ON s.sbb_id=t.id 
+where (s.create_date between #{dateFrom} AND #{dateTo}) and s.sbb_id=#{sbbId} )
+SELECT checkDate,MAX(electricalDegree) electricalDegree,sbbName from b GROUP BY checkDate,sbbName
+order by checkDate
+</select>
+	<select id="getYearList" resultType="com.power.gap.entity.GapEntity">
+ with b as (SELECT CONVERT(varchar(100), s.create_date, 23) checkDate,convert(float,electrical_degree) AS electricalDegree,sbb_name AS sbbName  
+ FROM tb_real_data s 
+ left join tb_device t ON s.sbb_id=t.id 
+where (s.create_date between #{dateFrom} AND #{dateTo}) and s.sbb_id=#{sbbId} ),
+a as(SELECT checkDate,MAX(electricalDegree) electricalDegree,sbbName,LEFT(checkDate,7 ) month from b GROUP BY checkDate,sbbName)
+SELECT month checkDate,MAX(electricalDegree) electricalDegree,sbbName from a GROUP BY sbbName,month ORDER BY month
+</select>
+
+<select id="getMainYearList" resultType="com.power.gap.entity.GapEntity">
+SELECT year(create_date) years, MONTH(create_date) months,   cast(AVG(cast(temperature_A as numeric(5,2)))as numeric(5,2)) temperatureA
+,   cast(AVG(cast(temperature_B as numeric(5,2)))as numeric(5,2)) temperatureB 
+,   cast(AVG(cast(temperature_C as numeric(5,2)))as numeric(5,2)) temperatureC 
+,   cast(AVG(cast(temperature_N as numeric(5,2)))as numeric(5,2)) temperatureN 
+,   cast(AVG(cast(current_A as numeric(5,2)))as numeric(5,2)) currentA
+,   cast(AVG(cast(current_B as numeric(5,2)))as numeric(5,2)) currentB
+,   cast(AVG(cast(current_C as numeric(5,2)))as numeric(5,2)) currentC
+,   cast(AVG(cast(voltage_A as numeric(5,2)))as numeric(5,2)) voltageA
+,   cast(AVG(cast(voltage_B as numeric(5,2)))as numeric(5,2)) voltageB
+,   cast(AVG(cast(voltage_C as numeric(5,2)))as numeric(5,2)) voltageC
+,   cast(AVG(cast(electrical_degree as numeric(8,2)))as numeric(8,2)) electricalDegree
+,   cast(AVG(cast(leakage_electricity as numeric(8,2)))as numeric(8,2)) leakageElectricity
+FROM tb_real_data s  
+where (s.create_date between #{dateFrom} AND #{dateTo}) and s.sbb_id=#{sbbId} 
+group by year(create_date), MONTH(create_date)
+ORDER BY year(create_date),MONTH(create_date)
+ 
+</select>
+
+    <select id="getMainMonthList" resultType="com.power.gap.entity.GapEntity">
+        SELECT year(create_date) years, MONTH(create_date) months,DAY(create_date) days ,  cast(AVG(cast(temperature_A as numeric(5,2)))as numeric(5,2)) temperatureA
+        ,   cast(AVG(cast(temperature_B as numeric(5,2)))as numeric(5,2)) temperatureB
+        ,   cast(AVG(cast(temperature_C as numeric(5,2)))as numeric(5,2)) temperatureC
+        ,   cast(AVG(cast(temperature_N as numeric(5,2)))as numeric(5,2)) temperatureN
+        ,   cast(AVG(cast(current_A as numeric(5,2)))as numeric(5,2)) currentA
+        ,   cast(AVG(cast(current_B as numeric(5,2)))as numeric(5,2)) currentB
+        ,   cast(AVG(cast(current_C as numeric(5,2)))as numeric(5,2)) currentC
+        ,   cast(AVG(cast(voltage_A as numeric(5,2)))as numeric(5,2)) voltageA
+        ,   cast(AVG(cast(voltage_B as numeric(5,2)))as numeric(5,2)) voltageB
+        ,   cast(AVG(cast(voltage_C as numeric(5,2)))as numeric(5,2)) voltageC
+        ,   cast(AVG(cast(electrical_degree as numeric(8,2)))as numeric(8,2)) electricalDegree
+        ,   cast(AVG(cast(leakage_electricity as numeric(8,2)))as numeric(8,2)) leakageElectricity
+        FROM tb_real_data s
+        where (s.create_date between #{dateFrom} AND #{dateTo}) and s.sbb_id=#{sbbId}
+        group by year(create_date), MONTH(create_date),DAY(create_date)
+        ORDER BY year(create_date),MONTH(create_date),DAY(create_date)
+
+    </select>
+
+   <select id="getRealList" resultType="com.power.gap.entity.GapEntity">
+           SELECT   create_date dateTo,temperature_B temperatureB,temperature_A temperatureA,
+           temperature_C temperatureC,current_A currentA,current_B currentB,current_C currentC,
+           voltage_A voltageA,voltage_B voltageB,voltage_C voltageC, electrical_degree electricalDegree
+            FROM tb_real_data s
+            WHERE  s.sbb_id=#{sbbId} and s.create_date<![CDATA[>]]>#{dateFrom}
+           ORDER BY create_date
+   </select>
+
+    <select id="getMainDayList" resultType="com.power.gap.entity.GapEntity">
+        SELECT   create_date dateTo,temperature_B temperatureB,temperature_A temperatureA,
+        temperature_C temperatureC,current_A currentA,current_B currentB,current_C currentC,
+        voltage_A voltageA,voltage_B voltageB,voltage_C voltageC, electrical_degree electricalDegree,leakage_electricity leakageElectricity
+        FROM tb_real_data s
+        WHERE  s.sbb_id=#{sbbId} and DateDiff(dd,create_date,#{dateTo})=0
+        ORDER BY create_date
+    </select>
+
+
+<select id="getSbbElec" resultType="Map">
+  WITH b as (select sbb_ID ,MAX(create_date) create_date from tb_real_data
+
+   GROUP BY sbb_ID) 
+SELECT d.sbb_name AS name,CONVERT(FLOAT,s.electrical_degree) AS y from b LEFT JOIN tb_real_data s ON  b.sbb_ID=s.sbb_ID AND b.create_date=s.create_date
+LEFT JOIN tb_device d ON d.ID=b.sbb_ID
+WHERE 1=1
+  <if test="area != null and area.id != null">
+         AND   d.area_id ='${area.id}'
+        </if>
+</select>
+
+	<select id="getMonthArea" resultType="com.power.gap.entity.GapEntity">
+ with b as (SELECT CONVERT(varchar(100), s.create_date, 23) checkDate,electrical_degree AS electricalDegree,sbb_name AS sbbName  
+ FROM tb_real_data s 
+ left join tb_device t ON s.sbb_id=t.id 
+where (s.create_date between #{dateFrom} AND #{dateTo}) and t.area_id=#{area.id} )
+,
+c as (SELECT checkDate,MAX(electricalDegree) electricalDegree,sbbName from b GROUP BY checkDate,sbbName)
+SELECT checkDate,SUM(CONVERT(FLOAT,electricalDegree) ) electricalDegree  from c GROUP BY checkDate ORDER BY checkDate
+</select>
+ <select id="getYearArea" resultType="com.power.gap.entity.GapEntity">
+    with b as (SELECT CONVERT(varchar(100), s.create_date, 23) checkDate,convert(float,electrical_degree) AS electricalDegree,sbb_name AS sbbName  
+ FROM tb_real_data s 
+ left join tb_device t ON s.sbb_id=t.id 
+where (s.create_date between #{dateFrom} AND #{dateTo}) and  t.area_id=#{area.id} ),
+a as(SELECT checkDate,MAX(electricalDegree) electricalDegree,sbbName,LEFT(checkDate,7 ) month from b GROUP BY checkDate,sbbName)
+SELECT month checkDate,SUM(CONVERT(FLOAT,electricalDegree) ) electricalDegree from a GROUP BY month ORDER BY month
+ </select>
+	<select id="getDayArea" resultType="com.power.gap.entity.GapEntity">
+         with b as (SELECT datediff( hour, #{checkDate}, create_date ) AS hours,electrical_degree AS electricalDegree,sbb_name AS sbbName FROM tb_real_data s
+         left join tb_device t ON s.sbb_id=t.id 
+          WHERE datediff(day,create_date,#{checkDate})=0
+ and t.area_id=#{area.id}  ) ,a as ( SELECT min(electricalDegree) AS electricalDegree,hours,sbbName from b GROUP BY hours,sbbName )
+ select hours,SUM(CONVERT(FLOAT,electricalDegree) ) electricalDegree from a GROUP BY hours ORDER BY hours
+	</select>
+</mapper>

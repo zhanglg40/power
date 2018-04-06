@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.power.contrast.dao.HistoryDataDao">
+ <sql id="DataList">
+	sbb_ID AS sbbId,
+	sbb_name AS sbbName,
+	temperature_A AS temperatureA,
+	temperature_B AS temperatureB,
+	temperature_C AS temperatureC,
+	temperature_N AS temperatureN,
+	current_A AS currentA,
+	current_B AS currentB,
+	current_C AS currentC,
+	voltage_A AS voltageA,
+	voltage_B AS voltageB,
+	voltage_C AS voltageC,
+	electrical_degree AS electricalDegree,
+	leakage_electricity AS leakageElectricity,
+	convert(char(10),create_date,120) dateFrom
+    </sql>
+
+
+	<select id="historyDataList" resultType="com.power.contrast.entity.ShowDataEntity">
+      with b as (SELECT s.*,t.sbb_name FROM tb_real_data s
+         left join tb_device t ON s.sbb_id=t.id 
+          WHERE create_date<![CDATA[>=]]>'2017-04-11' and create_date<![CDATA[<=]]>'2017-04-23'
+          and s.sbb_id=#{sbbId}
+         ),
+        a as ( SELECT  min(create_date) createDate from b  GROUP BY convert(char(10),create_date,120))
+       SELECT 
+       <include refid="DataList"/>
+       from b where create_date in (SELECT createDate from a)
+       ORDER BY create_date
+      
+	</select>
+<select id="getHistoryData" resultType="com.power.contrast.entity.ShowDataEntity">
+      with b as (SELECT s.*,t.sbb_name FROM tb_real_data s
+         left join tb_device t ON s.sbb_id=t.id 
+          WHERE datediff(day,create_date,#{createDate})=0
+          and s.sbb_id=#{sbbId}
+        
+         )
+     
+       SELECT TOP 1
+       <include refid="DataList"/>
+       from b 
+      order by create_date
+	</select>
+</mapper>
