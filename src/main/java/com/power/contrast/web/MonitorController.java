@@ -54,7 +54,7 @@ public class MonitorController extends BaseController {
 		List<DeviceEntity> deviceList=  deviceService.findListByUser(userId);
         model.addAttribute("deviceList", deviceList);
         if(StringUtils.isBlank(showDataEntity.getSbbId())){
-            showDataEntity.setSbbId("5582B94F-76CC-437A-AD61-4B493F272277");
+            showDataEntity.setSbbId(deviceList.get(0).getSbbId());
         }
         if(StringUtils.isBlank(showDataEntity.getCondition())){
             showDataEntity.setCondition("temperatureA");

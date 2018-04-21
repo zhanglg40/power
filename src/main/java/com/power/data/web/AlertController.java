@@ -151,6 +151,8 @@ public class AlertController   extends BaseController{
 				ja.put("VB",power.getVoltageB());
 				ja.put("VC",power.getVoltageC());
 				ja.put("LE",power.getLeakageElectricity());
+				ja.put("AP",power.getActivePower());
+				ja.put("PF",power.getPowerFactor());
                 devices.add(ja);
             }
         }

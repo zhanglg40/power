@@ -71,7 +71,7 @@
                            "<td>"+ data[n].TN + "</td></tr>" +
                            "<tr><td>电流A</td><td>"+data[n].CA +  "</td><td>电流B</td><td>"+ data[n].CB + "</td><td>电流C</td><td>"+data[n].CC +  "</td></tr>" +
                            "<tr><td>电压A</td><td>"+ data[n].VA + "</td><td>电压B</td><td>"+ data[n].VB + "</td><td>电压C</td><td>"+ data[n].VC + "</td></tr>" +
-                           "<td>电度</td><td>"+ data[n].ED + "</td><td>漏电流</td><td>"+ data[n].LE + "</td></tr>"
+                           "<td>电度</td><td>"+ data[n].ED + "</td><td>漏电流</td><td>"+ data[n].LE + "</td><td>功率因数</td><td>"+ data[n].PF + "</td><td>有功功率</td><td>"+ data[n].AP + "</td></tr>"
                            +"</table>",markers[n]);
             /*       markers[n].addEventListener("mouseover", funct1ion(){
 

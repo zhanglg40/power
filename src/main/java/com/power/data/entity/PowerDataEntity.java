@@ -3,11 +3,11 @@
  */
 package com.power.data.entity;
 
-import java.util.Date;
-
 import com.alibaba.fastjson.annotation.JSONField;
 import com.thinkgem.jeesite.common.persistence.DataEntity;
 import com.thinkgem.jeesite.modules.sys.entity.Area;
+
+import java.util.Date;
 
 /**
  * 
@@ -36,8 +36,9 @@ public class PowerDataEntity extends DataEntity<PowerDataEntity> {
     private double  voltageC;
     private double electricalDegree;
     private double leakageElectricity;
-
-    private String dateFrom;
+	private double powerFactor;
+	private double activePower;
+	private String dateFrom;
     private String dateTo;
     private Area area;      // 归属区域
     public Date getCreateDate() {
@@ -154,5 +155,20 @@ public class PowerDataEntity extends DataEntity<PowerDataEntity> {
     public void setQyId(String qyId) {
         this.qyId = qyId;
     }
-    
+
+	public double getPowerFactor() {
+		return powerFactor;
+	}
+
+	public void setPowerFactor(double powerFactor) {
+		this.powerFactor = powerFactor;
+	}
+
+	public double getActivePower() {
+		return activePower;
+	}
+
+	public void setActivePower(double activePower) {
+		this.activePower = activePower;
+	}
 }

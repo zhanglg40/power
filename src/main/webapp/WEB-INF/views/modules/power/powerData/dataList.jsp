@@ -59,7 +59,7 @@
 <table id="contentTable" class="table table-striped table-bordered table-condensed">
     <thead>
     <tr>
-        <th>编号</th><th>设备名称</th><th>温度A</th><th>温度B</th><th>温度C</th><th>温度N</th><th>电流A</th><th>电流B</th><th>电流C</th><th>电压A</th><th>电压B</th><th>电压C</th><th>电度</th><th>漏电</th><th>时间</th>
+        <th>编号</th><th>设备名称</th><th>温度A</th><th>温度B</th><th>温度C</th><th>温度N</th><th>电流A</th><th>电流B</th><th>电流C</th><th>电压A</th><th>电压B</th><th>电压C</th><th>电度</th><th>漏电</th><th>功率因数</th><th>有功功率</th><th>时间</th>
        
     </thead>
     <tbody>
@@ -75,7 +75,13 @@
                ${powerData.temperatureB}
             </td>
             <td>${powerData.temperatureC}</td><td>${powerData.temperatureN}</td><td>${powerData.currentA}</td><td>${powerData.currentB}</td><td>${powerData.currentC}</td><td>${powerData.voltageA}</td><td>${powerData.voltageB}</td><td>${powerData.voltageC}</td><td>${powerData.electricalDegree}</td><td>${powerData.leakageElectricity}</td>
-            <td><fmt:formatDate value="${powerData.createDate}" type="both"/></td>
+                <td>
+                        ${powerData.powerFactor}
+                </td>
+                <td>
+                        ${powerData.activePower}
+                </td>
+                <td><fmt:formatDate value="${powerData.createDate}" type="both"/></td>
                 
     
         </tr>

@@ -40,6 +40,8 @@ SELECT year(create_date) years, MONTH(create_date) months,   cast(AVG(cast(tempe
 ,   cast(AVG(cast(voltage_C as numeric(5,2)))as numeric(5,2)) voltageC
 ,   cast(AVG(cast(electrical_degree as numeric(8,2)))as numeric(8,2)) electricalDegree
 ,   cast(AVG(cast(leakage_electricity as numeric(8,2)))as numeric(8,2)) leakageElectricity
+      ,   cast(AVG(cast(power_factor  as numeric(8,2)))as numeric(8,2)) powerFactor
+        ,   cast(AVG(cast(active_power as numeric(8,2)))as numeric(8,2)) activePower
 FROM tb_real_data s  
 where (s.create_date between #{dateFrom} AND #{dateTo}) and s.sbb_id=#{sbbId} 
 group by year(create_date), MONTH(create_date)
@@ -60,6 +62,8 @@ ORDER BY year(create_date),MONTH(create_date)
         ,   cast(AVG(cast(voltage_C as numeric(5,2)))as numeric(5,2)) voltageC
         ,   cast(AVG(cast(electrical_degree as numeric(8,2)))as numeric(8,2)) electricalDegree
         ,   cast(AVG(cast(leakage_electricity as numeric(8,2)))as numeric(8,2)) leakageElectricity
+         ,   cast(AVG(cast(power_factor  as numeric(8,2)))as numeric(8,2)) powerFactor
+        ,   cast(AVG(cast(active_power as numeric(8,2)))as numeric(8,2)) activePower
         FROM tb_real_data s
         where (s.create_date between #{dateFrom} AND #{dateTo}) and s.sbb_id=#{sbbId}
         group by year(create_date), MONTH(create_date),DAY(create_date)
@@ -69,8 +73,9 @@ ORDER BY year(create_date),MONTH(create_date)
 
    <select id="getRealList" resultType="com.power.gap.entity.GapEntity">
            SELECT   create_date dateTo,temperature_B temperatureB,temperature_A temperatureA,
-           temperature_C temperatureC,current_A currentA,current_B currentB,current_C currentC,
+           temperature_C temperatureC,temperature_N temperatureN,current_A currentA,current_B currentB,current_C currentC,power_factor powerFactor,active_power,
            voltage_A voltageA,voltage_B voltageB,voltage_C voltageC, electrical_degree electricalDegree
+           ,leakage_electricity leakageElectricity
             FROM tb_real_data s
             WHERE  s.sbb_id=#{sbbId} and s.create_date<![CDATA[>]]>#{dateFrom}
            ORDER BY create_date
@@ -78,7 +83,7 @@ ORDER BY year(create_date),MONTH(create_date)
 
     <select id="getMainDayList" resultType="com.power.gap.entity.GapEntity">
         SELECT   create_date dateTo,temperature_B temperatureB,temperature_A temperatureA,
-        temperature_C temperatureC,current_A currentA,current_B currentB,current_C currentC,
+        temperature_C temperatureC,temperature_N temperatureN,current_A currentA,current_B currentB,current_C currentC,power_factor powerFactor,active_power,
         voltage_A voltageA,voltage_B voltageB,voltage_C voltageC, electrical_degree electricalDegree,leakage_electricity leakageElectricity
         FROM tb_real_data s
         WHERE  s.sbb_id=#{sbbId} and DateDiff(dd,create_date,#{dateTo})=0

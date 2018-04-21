@@ -14,6 +14,8 @@
 		voltage_A voltageA,
 		voltage_B voltageB,
 		voltage_C voltageC,
+        power_factor powerFactor,
+        active_power activePower,
 		electrical_degree electricalDegree,
 		leakage_electricity leakageElectricity,
 		sbb_name sbbName,
@@ -39,6 +41,8 @@
 		voltage_C voltageC,
 		electrical_degree electricalDegree,
 		leakage_electricity leakageElectricity,
+        power_factor powerFactor,
+        active_power activePower,
 		sbb_name sbbName,
 		create_date createDate
 		FROM tb_real_data s
@@ -66,6 +70,8 @@
 		voltage_A voltageA,
 		voltage_B voltageB,
 		voltage_C voltageC,
+		power_factor powerFactor,
+        active_power activePower,
 		electrical_degree electricalDegree,
 		leakage_electricity leakageElectricity,
 		sbb_name sbbName,

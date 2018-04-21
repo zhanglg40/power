@@ -46,7 +46,7 @@ public class GapApi {
         String sbbId= request.getParameter("sbbId");
         String itemType= request.getParameter("itemType");
         String dateFrom= request.getParameter("dateFrom");
-        String dateTo= request.getParameter("dateTo");
+
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM");
         SimpleDateFormat sdf1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         entity.setSbbId(sbbId);
@@ -55,44 +55,23 @@ public class GapApi {
         GapEntity gapEntity=new GapEntity();
         gapEntity.setSbbId(sbbId);
         gapEntity.setDayFrom(dateFrom);
-        gapEntity.setDayTo(dateTo);
-        Date date=DateUtils.getBJDate();
-        Calendar cal = Calendar.getInstance();
-        String  dateString1 = sdf.format(date);
+
+
         if(StringUtils.isBlank(gapEntity.getDayFrom())){
-            cal.setTime(date);
-            cal.add(Calendar.MONTH, -6);
-            Date date1= cal.getTime();
-            gapEntity.setDayFrom(sdf.format(date1));
+
+            gapEntity.setDayFrom(DateUtils.getYear());
         }
-        if(StringUtils.isBlank(gapEntity.getDayTo())){
-            gapEntity.setDayTo(dateString1);
-        }
-        if(StringUtils.isBlank(gapEntity.getDayFrom())){
-            cal.setTime(date);
-            cal.add(Calendar.MONTH, -6);
-            Date date1= cal.getTime();
-            gapEntity.setDayFrom(sdf.format(date1));
-        }
-        if(StringUtils.isBlank(gapEntity.getDayTo())){
-            gapEntity.setDayTo(dateString1);
-        }
+
         String  dateString0 = gapEntity.getDayFrom();
-        dateString1=gapEntity.getDayTo();
+
         
         
        Date datef;
     try {
-        datef = sdf.parse(dateString0);
-    
-       cal.setTime(datef);
-       cal.add(Calendar.MONTH, -1);
-       datef=sdf1.parse(sdf.format(cal.getTime())+"-01 00:00:00");
+
+       datef=sdf1.parse(dateString0+"-01-01 00:00:00");
        gapEntity.setDateFrom(datef);
-       Date datet = sdf.parse(dateString1);
-       cal.setTime(datet);
-       cal.add(Calendar.MONTH, 1);
-       datet=sdf1.parse(sdf.format(cal.getTime())+"-01 00:00:00");
+       Date datet = sdf.parse(dateString0+"-12-31 23:59:59");
        gapEntity.setDateTo(datet);
        gapEntity.setSbbId(sbbId);
        List<GapEntity> list = service.getMainYearList( gapEntity);
@@ -155,14 +134,15 @@ public class GapApi {
         try {
 
             List<GapEntity> nlist = service.getMainDayList( gapEntity);
-			List<GapEntity>  list =new ArrayList<>();
-			if(nlist.size()>12){
+			// List<GapEntity>  list =new ArrayList<>();
+			List<GapEntity>  list=nlist;
+			/*if(nlist.size()>12){
 				for(int n=nlist.size()-13;n<nlist.size();n++){
 					list.add(nlist.get(n));
 				}
 			}else{
 				list=nlist;
-			}
+			}*/
             List<Map<String,Object>> listData=new ArrayList<Map<String,Object>>();
             Field[] f2 = gapEntity.getClass().getDeclaredFields();
             for (Field field : f2) {
@@ -202,13 +182,21 @@ public class GapApi {
     @RequestMapping("/monthList")
     public Object monthList(HttpServletRequest request, HttpServletResponse response) throws ParseException {
         DeviceEntity entity=new DeviceEntity();
-
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
         Map<String,Object> map=new HashMap<String, Object>();
         String sbbId= request.getParameter("sbbId");
         String itemType= request.getParameter("itemType");
         String dateFrom= request.getParameter("dateFrom");
-        String dateTo= request.getParameter("dateTo");
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		dateFrom=dateFrom+"-01";
+		Date date1  = sdf.parse(dateFrom);
+		Calendar cale = null;
+		cale = Calendar.getInstance();
+		cale.add(Calendar.MONTH, 1);
+		cale.set(Calendar.DAY_OF_MONTH, 0);
+		Date date2=cale.getTime();
+		String dateTo=sdf.format(cale.getTime());
+	//	String dateTo= request.getParameter("dateTo");
+
         entity.setSbbId(sbbId);
         entity= deviceService.get(sbbId);
         map.put("name", entity.getSbbName());
@@ -216,15 +204,15 @@ public class GapApi {
         gapEntity.setSbbId(sbbId);
         gapEntity.setDayFrom(dateFrom);
         gapEntity.setDayTo(dateTo);
-        Date date1 ;
-        Date date2 ;
+
         Calendar cal = Calendar.getInstance();
 
-        if(StringUtils.isBlank(gapEntity.getDayFrom())||StringUtils.isBlank(gapEntity.getDayTo())){
+/*        if(StringUtils.isBlank(gapEntity.getDayFrom())||StringUtils.isBlank(gapEntity.getDayTo())){
             date2=DateUtils.getBJDate();
-            cal.setTime(date2);
+			date1=sdf.parse(DateUtils.getFirstDay())  ;
+          *//*  cal.setTime(date2);
             cal.add(Calendar.DATE, -7);
-            date1=cal.getTime();
+            date1=cal.getTime();*//*
         }else{
             String dayFrom=gapEntity.getDayFrom();
             String dayTo=gapEntity.getDayTo();
@@ -242,9 +230,10 @@ public class GapApi {
         cal.add(Calendar.DAY_OF_MONTH, 1);
 
 
-        Date datef;
+        Date datef;*/
         try {
-            gapEntity.setDateTo(cal.getTime());
+			gapEntity.setDateFrom(date1);
+            gapEntity.setDateTo(date2);
             List<GapEntity> list = service.getMainMonthList( gapEntity);
             List<Map<String,Object>> listData=new ArrayList<Map<String,Object>>();
             Field[] f2 = gapEntity.getClass().getDeclaredFields();

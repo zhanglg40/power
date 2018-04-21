@@ -280,37 +280,28 @@ public class GapController extends BaseController {
     @RequestMapping(value =  "monthList/{showType}" )
     public String monthList(@PathVariable("showType") String showType ,GapEntity gapEntity, HttpServletRequest request, HttpServletResponse response,
                        Model model) throws ParseException {
+		String userId = UserUtils.getUser().getLoginName();
+		List<DeviceEntity> deviceList=  deviceService.findListByUser(userId);
         String type=request.getParameter("type")==null?"1":request.getParameter("type");
        if(StringUtils.isBlank(gapEntity.getSbbId())){
-           gapEntity.setSbbId("8160E2F6-6A06-4B26-9F86-B35BD4375338");
+           gapEntity.setSbbId(deviceList.get(0).getSbbId());
        }
        Date date1 ;
        Date date2 ;
-       SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+       SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM");
        Calendar cal = Calendar.getInstance();
 
-       if(StringUtils.isBlank(gapEntity.getDayFrom())||StringUtils.isBlank(gapEntity.getDayTo())){
-           date2=DateUtils.getBJDate();
-           cal.setTime(date2);
-           cal.add(Calendar.DATE, -7);
-           date1=cal.getTime();
+       if(StringUtils.isBlank(gapEntity.getDayFrom())){
+		   date2=DateUtils.getBJDate();
+		   date1=sdf.parse(DateUtils.getFirstDay())  ;
 		   gapEntity.setDayFrom(sdf.format(date1));
 		   gapEntity.setDayTo(sdf.format(date2));
        }else{
            String dayFrom=gapEntity.getDayFrom();
-           String dayTo=gapEntity.getDayTo();
-          
-            date1 = sdf.parse(dayFrom);
-            date2 = sdf.parse(dayTo);
+
        }
 
-       cal.setTime(date1);
-       cal.add(Calendar.DAY_OF_MONTH, -1);
-       
-      
-       gapEntity.setDateFrom(cal.getTime());
-       cal.setTime(date2);
-       cal.add(Calendar.DAY_OF_MONTH, 1);
+
        gapEntity.setDateTo(cal.getTime());
        /*List<GapEntity> list = gapService.getMonthList( gapEntity);
        StringBuilder dayList=new StringBuilder();
@@ -367,8 +358,7 @@ public class GapController extends BaseController {
         model.addAttribute("dayList", days);
         model.addAttribute("gapList", gaps);
         model.addAttribute("sbbName", sbbName);*/
-		String userId = UserUtils.getUser().getLoginName();
-		List<DeviceEntity> deviceList=  deviceService.findListByUser(userId);
+
       model.addAttribute("deviceList", deviceList);
       switch(type){
       case "1":
@@ -388,84 +378,23 @@ public class GapController extends BaseController {
     @RequestMapping(value =  "yearList/{showType}" )
     public String yearList(@PathVariable("showType") String showType ,GapEntity gapEntity, HttpServletRequest request, HttpServletResponse response,
                        Model model) throws ParseException {
+		String userId = UserUtils.getUser().getLoginName();
+		List<DeviceEntity> deviceList=  deviceService.findListByUser(userId);
         String type=request.getParameter("type")==null?"1":request.getParameter("type");
         if(StringUtils.isBlank(gapEntity.getSbbId())){
-            gapEntity.setSbbId("8160E2F6-6A06-4B26-9F86-B35BD4375338");
+			gapEntity.setSbbId(deviceList.get(0).getSbbId());
         }
         Date date=DateUtils.getBJDate();
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM");
-        SimpleDateFormat sdf1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Calendar cal = Calendar.getInstance();
-        String  dateString1 = sdf.format(date);
+
        
         if(StringUtils.isBlank(gapEntity.getDayFrom())){
-            cal.setTime(date);
-            cal.add(Calendar.MONTH, -6);
-            Date date1= cal.getTime();
-            gapEntity.setDayFrom(sdf.format(date1));
+
+            gapEntity.setDayFrom(DateUtils.getYear());
         }
-        if(StringUtils.isBlank(gapEntity.getDayTo())){
-            gapEntity.setDayTo(dateString1);
-        }
-        String  dateString0 = gapEntity.getDayFrom();
-        dateString1=gapEntity.getDayTo();
-        
-        
-       Date datef = sdf.parse(dateString0);
-       cal.setTime(datef);
-       cal.add(Calendar.MONTH, -1);
-       datef=sdf1.parse(sdf.format(cal.getTime())+"-01 00:00:00");
-       gapEntity.setDateFrom(datef);
-       Date datet = sdf.parse(dateString1);
-       cal.setTime(datet);
-       cal.add(Calendar.MONTH, 1);
-       datet=sdf1.parse(sdf.format(cal.getTime())+"-01 00:00:00");
-       gapEntity.setDateTo(datet);
-       StringBuilder dayList=new StringBuilder();
-       StringBuilder gapList=new StringBuilder();
-/*       List<GapEntity> list = gapService.getYearList( gapEntity);
-       while(datef.getTime()<datet.getTime()){
-           Double d0=0.0;
-           Double d1=0.0;
-           String  m0 = sdf.format(datef);
-           for(GapEntity e:list){
-               if(e.getCheckDate().equals(m0)){
-                   d0=e.getElectricalDegree();
-                   break;
-               }
-           }
-           cal.setTime(datef);
-           cal.add(Calendar.MONTH, 1);
-           //当前月
-           Date daten=   sdf.parse(sdf.format(cal.getTime())+"-01 00:00:00");
-           String  m1 = sdf.format(daten);
-           for(GapEntity e:list){
-               if(e.getCheckDate().equals(m1)){
-                   d1=e.getElectricalDegree();
-                   break;
-               }
-           }
-           dayList.append(m1).append(",");
-           if(d1==0.0){
-               gapList.append("0.0,");
-           }else{
-               DecimalFormat   df   =new   java.text.DecimalFormat("#.00");  
-               String d=   df.format(d1-d0);
-               gapList.append(d).append(",");
-           }
-           datef=daten;
-       }
-       String sbbName="";
-       if(list!=null&&list.size()>0){
-           sbbName=list.get(0).getSbbName();
-       }
-       String days = dayList.toString();
-       days=days.substring(0,days.length()-1);
-       String   gaps = gapList.toString();
-        gaps=gaps.substring(0,gaps.length()-1);
-		model.addAttribute("dayList", days);
-		model.addAttribute("gapList", gaps);
-		model.addAttribute("sbbName", sbbName);*/
+
+
+
         switch(type){
         case "1":
             model.addAttribute("showtype", "spline");
@@ -477,10 +406,9 @@ public class GapController extends BaseController {
             break;
         }
 
-       /*  model.addAttribute("showType", showType);*/
+
          model.addAttribute("type", type);
-		String userId = UserUtils.getUser().getLoginName();
-		List<DeviceEntity> deviceList=  deviceService.findListByUser(userId);
+
        model.addAttribute("deviceList", deviceList);
        return "modules/power/gap/yearListLine"; 
       

@@ -66,10 +66,10 @@
           </div>
        </div>
     <div class="control-group">
-        <label class="control-label">报警通知手机号:</label>
+        <label class="control-label">机构编码:</label>
         <div class="controls">
             <form:input path="reveiveNo" htmlEscape="false" maxlength="50" class=""/>
-            <span class="help-inline"><font color="red">* 多个手机号用逗号(,)隔开</font>
+
         </div>
     </div>
                      <div class="control-group">

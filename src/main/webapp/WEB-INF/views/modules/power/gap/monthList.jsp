@@ -146,7 +146,7 @@
 
     <table style="margin-top: 10px;background: #f5f5f5" class="table table-striped  table-condensed">
     <tr>
-      <td style="width:20%;text-align:center">
+      <td style="width:30%; ">
     		<div class="btn-group" data-toggle="buttons">
 				<a class="btn grey-steel btn-sm" href="/power_cloud_manager/a/power/gap/yearList/Line">
 				  <input name="options" class="toggle" id="option1" type="radio">&nbsp年统计&nbsp</a>
@@ -160,13 +160,13 @@
 				  <input name="options" class="toggle" id="option3" type="radio">&nbsp日统计&nbsp</a>
 				</div>
 			</td>
-        <td style="width:80px;text-align: right"><label>设备名称：</label></td><td> <form:select path="sbbId" class="input-medium" ismultiple="true">
+        <td style="width:30%; "><label>设备名称：</label> <form:select path="sbbId" class="input-medium" ismultiple="true">
                     <form:option value="" label="请选择" />
                     <form:options items="${deviceList}"
                         itemLabel="sbbName" itemValue="sbbId" htmlEscape="false" />
                 </form:select> </td>
 
-        <td style="width:23%;text-align:center">
+        <td style="width:23%; ">
     		<div class="btn-group" data-toggle="buttons">
 				<a id="sel1" class="btn grey-steel btn-sm" onclick="sel('1')">
 				  <input name="options" class="toggle" id="line" type="radio">&nbsp曲线图&nbsp</a>
@@ -174,21 +174,19 @@
 				  <input name="options" class="toggle" id="bar" type="radio">&nbsp柱状图&nbsp</a>
 			</div>
 			</td>
-       <td class="btns">&nbsp;&nbsp;
-            <input id="btnSubmit" class="btn btn-primary" type="submit" onclick="page()"  value="查询" />
-        </td>
+
        </tr>
         <tr>
-            <td style="width:23%"><label>类型：</label>
+            <td style="width:23%; "><label>类型：</label>
                 <form:select path="sbbType" >
                     <form:options items="${fns:getDictList('power_type')}" itemLabel="label" itemValue="value" htmlEscape="false" />
                 </form:select></td>
-            <td style="width:80px;text-align: right"><label>日期：&nbsp;&nbsp;</label></td><td><input id="dayFrom" name="dayFrom" type="text" readonly="readonly" maxlength="20" style="height:30px;width:110px" class="Wdate"
-                                                                                                   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
-            --
-            <input id="dayTo" name="dayTo" type="text" readonly="readonly" maxlength="20" style="height:30px;width:110px" class="Wdate"
-                   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
-        </td><td></td><td></td>
+            <td style="width:80px; "><label>选择月份：&nbsp;&nbsp;</label>
+            <input id="dayFrom" name="dayFrom" type="text" readonly="readonly" maxlength="20" style="height:30px;width:110px" class="Wdate"
+                                                                                                     onclick="WdatePicker({dateFmt:'yyyy-MM',isShowClear:false});"/>
+        </td>       <td class="btns">&nbsp;&nbsp;
+            <input id="btnSubmit" class="btn btn-primary" type="submit" onclick="page()"  value="查询" />
+        </td>
         </tr>
     </table>
 </form:form>

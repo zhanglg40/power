@@ -97,8 +97,16 @@
                         getDataList(c,$('#sbbId').val(),$('#checkDate').val(),'electricalDegree','电度');
                         break;
                     case 'leakageElectricity':
-                        c.yAxis[0].setTitle({text:'安培(A)'});
+                        c.yAxis[0].setTitle({text:'毫安培(mA)'});
                         getDataList(c,$('#sbbId').val(),$('#checkDate').val(),'leakageElectricity','漏电流');
+                        break;
+                    case 'activePower':
+                        c.yAxis[0].setTitle({text:'瓦(W)'});
+                        getDataList(c,$('#sbbId').val(),$('#checkDate').val(),'activePower','有功功率');
+                        break;
+                    case 'powerFactor':
+                        c.yAxis[0].setTitle({text:'%'});
+                        getDataList(c,$('#sbbId').val(),$('#checkDate').val(),'powerFactor','功率因数');
                         break;
                 }
 
@@ -201,7 +209,8 @@ function sel(id){
  <div class="clearfix"></div>
 <sys:message content="${message}"/>
 <div class="clearfix"></div>
-<div id="container" style="min-width: 310px; height: 300px; margin: 0 auto"></div>
-
+<div style="width: 9410px;overflow:auto;position:absolute; height:400px; ">
+<div id="container" style="min-width: 810px; height: 300px; margin: 0 auto"></div>
+</div>
 </body>
 </html>

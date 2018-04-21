@@ -60,19 +60,52 @@
     <tr>
         <th>编号</th>
         <c:choose>
-            <c:when test="${page.orderBy eq ''}">
-                <th class="sort-column sbb_name">设备名称<i class="icon icon-arrow-down"></i><i class="icon icon-arrow-up"></i></th>
+            <c:when test="${fn:contains(page.orderBy,'sbb_name')}">
+                <th class="sort-column sbb_name">设备名称</th>
             </c:when>
             <c:otherwise>
-               <th class="sort-column sbb_name">设备名称</th>
+               <th class="sort-column sbb_name">设备名称<i class="icon icon-arrow-down"></i><i class="icon icon-arrow-up"></i></th>
             </c:otherwise>
         </c:choose>
 
 
         <th>经度</th><th>纬度</th><th>物联网号码</th>
-        <th>区域位置</th><th>设备类型</th><th>安装时间</th><th>报警通知手机号</th>
+        <c:choose>
+            <c:when test="${fn:contains(page.orderBy,'name')}">
+                <th class="sort-column name">区域位置</th>
+            </c:when>
+            <c:otherwise>
+                <th class="sort-column name">区域位置<i class="icon icon-arrow-down"></i><i class="icon icon-arrow-up"></i></th>
+            </c:otherwise>
+        </c:choose>
+
+        <c:choose>
+            <c:when test="${fn:contains(page.orderBy,'sbb_type')}">
+                <th class="sort-column sbb_type">设备类型 </th>
+            </c:when>
+            <c:otherwise>
+                <th class="sort-column sbb_type">设备类型<i class="icon icon-arrow-down"></i><i class="icon icon-arrow-up"></i></th>
+            </c:otherwise>
+        </c:choose>
+
+        <c:choose>
+        <c:when test="${fn:contains(page.orderBy,'install_date')}">
+            <th class="sort-column install_date">安装时间</th>
+        </c:when>
+        <c:otherwise>
+            <th class="sort-column install_date">安装时间<i class="icon icon-arrow-down"></i><i class="icon icon-arrow-up"></i></th>
+        </c:otherwise>
+        </c:choose>
+        <c:choose>
+        <c:when test="${fn:contains(page.orderBy,'reveive_no')}">
+            <th class="sort-column reveive_no">机构编码</th>
+        </c:when>
+        <c:otherwise>
+            <th class="sort-column reveive_no">机构编码<i class="icon icon-arrow-down"></i><i class="icon icon-arrow-up"></i></th>
+        </c:otherwise>
+        </c:choose>
         <shiro:hasPermission name="power:device:edit">
-            <th>操作</th>
+            <th>操作${page.orderBy}</th>
         </shiro:hasPermission></tr>
     </thead>
     <tbody>

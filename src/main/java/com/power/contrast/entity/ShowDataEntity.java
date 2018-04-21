@@ -1,10 +1,10 @@
 package com.power.contrast.entity;
 
-import java.util.Date;
-
 import com.thinkgem.jeesite.common.annotation.FieldName;
 import com.thinkgem.jeesite.common.persistence.DataEntity;
 import com.thinkgem.jeesite.modules.sys.entity.Area;
+
+import java.util.Date;
 
 /**
  * @author zhanglg
@@ -41,6 +41,10 @@ public class ShowDataEntity extends DataEntity<ShowDataEntity> {
     private double electricalDegree;
     @FieldName(value="漏电")
     private double leakageElectricity;
+	@FieldName(value="功率因数")
+	private double powerFactor;
+	@FieldName(value="有功功率")
+	private double activePower;
     private String sbbList;
     private Date dayFrom;
     private Date dayTo;
@@ -232,6 +236,19 @@ public class ShowDataEntity extends DataEntity<ShowDataEntity> {
         this.sbbCId = sbbCId;
     }
 
- 
+	public double getPowerFactor() {
+		return powerFactor;
+	}
 
+	public void setPowerFactor(double powerFactor) {
+		this.powerFactor = powerFactor;
+	}
+
+	public double getActivePower() {
+		return activePower;
+	}
+
+	public void setActivePower(double activePower) {
+		this.activePower = activePower;
+	}
 }

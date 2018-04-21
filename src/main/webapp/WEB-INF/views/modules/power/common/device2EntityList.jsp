@@ -55,13 +55,27 @@
                         <th class="sort-column sbb_name">设备名称</th>
                     </c:otherwise>
                 </c:choose>
-				<th>设备码</th>
+                <c:choose>
+                    <c:when test="${fn:contains(page.orderBy,'sbb_ID')}">
+                        <th class="sort-column sbb_ID">设备码</th>
+                    </c:when>
+                    <c:otherwise>
+                        <th class="sort-column sbb_ID">设备码<i class="icon icon-arrow-down"></i><i class="icon icon-arrow-up"></i></th>
+                    </c:otherwise>
+                </c:choose>
 				<th>所属区域</th>
 				<th>监测类型</th>
 			
 				<th>监测区域1</th>
 				<th>监测区域2</th>
-				<th>安装日期</th>
+                <c:choose>
+                    <c:when test="${fn:contains(page.orderBy,'install_date')}">
+                        <th class="sort-column install_date">安装日期</th>
+                    </c:when>
+                    <c:otherwise>
+                        <th class="sort-column install_date">安装日期<i class="icon icon-arrow-down"></i><i class="icon icon-arrow-up"></i></th>
+                    </c:otherwise>
+                </c:choose>
 				<shiro:hasPermission name="common:device2Entity:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>

@@ -3,14 +3,16 @@
  */
 package com.thinkgem.jeesite.common.utils;
 
+import org.apache.commons.lang3.time.DateFormatUtils;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
-
-import org.apache.commons.lang3.time.DateFormatUtils;
 
 /**
  * 日期工具类, 继承org.apache.commons.lang.time.DateUtils类
@@ -80,6 +82,13 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 	}
 
 	/**
+	 * 得到当前年份字符串 格式（yyyy）
+	 */
+	public static String getFirstDay() {
+		return getYear()+"-"+getMonth()+"-01";
+	}
+
+	/**
 	 * 得到当前月份字符串 格式（MM）
 	 */
 	public static String getMonth() {
@@ -146,7 +155,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 		long t = new Date().getTime()-date.getTime();
 		return t/(60*1000);
 	}
-	
+
 	/**
 	 * 转换为时间（天,时:分:秒.毫秒）
 	 * @param timeMillis
@@ -200,5 +209,17 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 //		System.out.println(getDate("yyyy年MM月dd日 E"));
 //		long time = new Date().getTime()-parseDate("2012-11-19").getTime();
 //		System.out.println(time/(24*60*60*1000));
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		String dateFrom="2017-05";
+		dateFrom=dateFrom+"-03";
+		Date  date1 = sdf.parse(dateFrom);
+		Calendar cale = null;
+		cale = Calendar.getInstance();
+		cale.setTime(date1);
+		cale.add(Calendar.MONTH, 1);
+		cale.set(Calendar.DAY_OF_MONTH, 0);
+
+		System.out.println(date1);
+		System.out.println(sdf.format(cale.getTime()));
 	}
 }

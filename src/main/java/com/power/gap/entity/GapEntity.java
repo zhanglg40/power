@@ -41,6 +41,8 @@ public class GapEntity extends DataEntity<GapEntity> {
     private double  voltageB;
     private double  voltageC;
 	private double  leakageElectricity;
+	private double powerFactor;
+	private double activePower;
     public String getSbbId() {
         return sbbId;
     }
@@ -263,5 +265,21 @@ public class GapEntity extends DataEntity<GapEntity> {
 
 	public void setLeakageElectricity(double leakageElectricity) {
 		this.leakageElectricity = leakageElectricity;
+	}
+
+	public double getPowerFactor() {
+		return powerFactor;
+	}
+
+	public void setPowerFactor(double powerFactor) {
+		this.powerFactor = powerFactor;
+	}
+
+	public double getActivePower() {
+		return activePower;
+	}
+
+	public void setActivePower(double activePower) {
+		this.activePower = activePower;
 	}
 }

@@ -12,7 +12,7 @@
          s.sbb_type,
          s.alert_type,
 		sbb_name sbbName,
-        case when s.del_flag =0 then '未处理'
+        case when s.del_flag ='0' then '未处理'
 		else '已处理' END delName
 		FROM tb_alert_data s
 		LEFT JOIN tb_device t ON t.ID=s.sbb_ID
