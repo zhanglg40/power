@@ -49,6 +49,7 @@
 
        <li class="btns">&nbsp;&nbsp;
             <input id="btnSubmit" class="btn btn-primary" type="submit" value="查询" onclick="return page();"/>
+           <a class="btn btn-primary" href="${ctx}/power/powerData/exportFile"> 导出Excel</a>
         </li>
         <li class="clearfix"></li>
     </ul>
@@ -59,7 +60,7 @@
 <table id="contentTable" class="table table-striped table-bordered table-condensed">
     <thead>
     <tr>
-        <th>编号</th><th>设备名称</th><th>温度A</th><th>温度B</th><th>温度C</th><th>温度N</th><th>电流A</th><th>电流B</th><th>电流C</th><th>电压A</th><th>电压B</th><th>电压C</th><th>电度</th><th>漏电</th><th>功率因数</th><th>有功功率</th><th>时间</th>
+        <th>编号</th><th>设备名称</th><th>温度A</th><th>温度B</th><th>温度C</th><th>温度N</th><th>电流A</th><th>电流B</th><th>电流C</th><th>电压A</th><th>电压B</th><th>电压C</th><th>用电量</th><th>漏电</th><th>功率因数</th><th>有功功率</th><th>时间</th>
        
     </thead>
     <tbody>

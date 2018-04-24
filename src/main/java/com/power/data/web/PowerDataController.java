@@ -8,6 +8,8 @@ import com.power.common.service.DeviceService;
 import com.power.data.entity.PowerDataEntity;
 import com.power.data.service.PowerDataService;
 import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.utils.DateUtils;
+import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -16,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -56,4 +59,19 @@ public class PowerDataController  extends BaseController{
         model.addAttribute("page", page);
         return  "modules/power/powerData/dataList";
     }
+	@RequestMapping(value = "exportFile")
+	public String exportFile(PowerDataEntity powerDataEntity, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
+		try {
+			String fileName = "设备数据"+ DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
+			Page<PowerDataEntity> page1 = new Page<PowerDataEntity>(request, response);
+			page1.setPageNo(1);
+			page1.setPageSize(10000);
+			Page<PowerDataEntity> page  =   page = powerDataService.findList(new Page<PowerDataEntity>(request, response), powerDataEntity);
+			new ExportExcel("设备数据", PowerDataEntity.class).setDataList(page.getList()).write(response, fileName).dispose();
+			return null;
+		} catch (Exception e) {
+			addMessage(redirectAttributes, "导出失败！失败信息："+e.getMessage());
+		}
+		return "redirect:" + adminPath + "/power/powerData/?repage";
+	}
 }

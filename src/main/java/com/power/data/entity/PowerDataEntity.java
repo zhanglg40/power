@@ -5,6 +5,7 @@ package com.power.data.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.thinkgem.jeesite.common.persistence.DataEntity;
+import com.thinkgem.jeesite.common.utils.excel.annotation.ExcelField;
 import com.thinkgem.jeesite.modules.sys.entity.Area;
 
 import java.util.Date;
@@ -19,24 +20,40 @@ import java.util.Date;
 
 public class PowerDataEntity extends DataEntity<PowerDataEntity> {
     private static final long serialVersionUID = 1L;
+	@ExcelField(title="时间", align=2, sort=26)
     @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Date createDate;
     private String sbbId;
+	@ExcelField(title="设备名称", align=2, sort=11)
     private String sbbName;
     private String qyId;
+	@ExcelField(title="温度A", align=2, sort=12)
     private double temperatureA;
+	@ExcelField(title="温度B", align=2, sort=13)
     private double temperatureB;
+	@ExcelField(title="温度C", align=2, sort=14)
     private double temperatureC;
+	@ExcelField(title="温度N", align=2, sort=15)
     private double temperatureN;
+	@ExcelField(title="电流A", align=2, sort=16)
     private double  currentA;
+	@ExcelField(title="电流B", align=2, sort=17)
     private double  currentB;
+	@ExcelField(title="电流C", align=2, sort=18)
     private double  currentC;
+	@ExcelField(title="电压A", align=2, sort=19)
     private double  voltageA;
+	@ExcelField(title="电压B", align=2, sort=20)
     private double  voltageB;
+	@ExcelField(title="电压C", align=2, sort=21)
     private double  voltageC;
+	@ExcelField(title="用电量", align=2, sort=22)
     private double electricalDegree;
+	@ExcelField(title="漏电流", align=2, sort=23)
     private double leakageElectricity;
+	@ExcelField(title="功率因数", align=2, sort=24)
 	private double powerFactor;
+	@ExcelField(title="有功功率", align=2, sort=25)
 	private double activePower;
 	private String dateFrom;
     private String dateTo;
