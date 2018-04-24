@@ -23,4 +23,5 @@
 <link href="${ctxStatic}/bootstrap/bootstrap-select-1.12.2/css/bootstrap-select.css" type="text/css" rel="stylesheet" />
 <script src="${ctxStatic}/bootstrap/bootstrap-select-1.12.2/js/bootstrap-select.js" type="text/javascript"></script>
 <script src="${ctxStatic}/highchart/highcharts.src.js" type="text/javascript"></script>
+<script src="http://cdn.hcharts.cn/libs/highcharts-export-csv/export-csv.js"></script>
 <script type="text/javascript">var ctx = '${ctx}', ctxStatic='${ctxStatic}';</script>

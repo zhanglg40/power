@@ -14,6 +14,18 @@
         $("#searchForm").submit();
         return false;
     }
+    Highcharts.setOptions({
+        lang: {
+            printChart: '打印图表',
+            downloadJPEG: '下载 JPEG 文件',
+            downloadPDF: '下载 PDF   文件',
+            downloadPNG: '下载 PNG  文件',
+            downloadSVG: '下载 SVG  文件',
+            downloadCSV: '下载 CSV  文件',
+            downloadXLS: '下载 XLS   文件',
+            viewData: '查看数据表格'
+        }
+    });
         $(function () {
         	$('#sel'+type).addClass("active");
         	$('#dayFrom').val('${gapEntity.dayFrom}');
@@ -64,32 +76,40 @@
                 var sbbType=$('#sbbType').val();
                 switch (sbbType){
                     case 'temperature':
-                        c.yAxis[0].setTitle({text:'摄氏度(℃)'});
+                        c.yAxis[0].setTitle({text:'温度(摄氏度)'});
                         getDataList(c,$('#sbbId').val(),$('#dayFrom').val(),$('#dayTo').val(),'temperatureA','温度A');
                         getDataList(c,$('#sbbId').val(),$('#dayFrom').val(),$('#dayTo').val(),'temperatureB','温度B');
                         getDataList(c,$('#sbbId').val(),$('#dayFrom').val(),$('#dayTo').val(),'temperatureC','温度C');
                         getDataList(c,$('#sbbId').val(),$('#dayFrom').val(),$('#dayTo').val(),'temperatureN','温度N');
                         break;
                     case 'current':
-                        c.yAxis[0].setTitle({text:'安培(A)'});
+                        c.yAxis[0].setTitle({text:'电流(安培)'});
                         getDataList(c,$('#sbbId').val(),$('#dayFrom').val(),$('#dayTo').val(),'currentA','电流A');
                         getDataList(c,$('#sbbId').val(),$('#dayFrom').val(),$('#dayTo').val(),'currentB','电流B');
                         getDataList(c,$('#sbbId').val(),$('#dayFrom').val(),$('#dayTo').val(),'currentC','电流C');
                         break;
                     case 'voltage':
-                        c.yAxis[0].setTitle({text:'伏特(V)'});
+                        c.yAxis[0].setTitle({text:'电压(伏特)'});
                         getDataList(c,$('#sbbId').val(),$('#dayFrom').val(),$('#dayTo').val(),'voltageA','电压A');
                         getDataList(c,$('#sbbId').val(),$('#dayFrom').val(),$('#dayTo').val(),'voltageB','电压B');
                         getDataList(c,$('#sbbId').val(),$('#dayFrom').val(),$('#dayTo').val(),'voltageC','电压C');
                         break;
 
                     case 'electricalDegree':
-                        c.yAxis[0].setTitle({text:'度数(kWh)'});
+                        c.yAxis[0].setTitle({text:'用电量(度)'});
                         getDataList(c,$('#sbbId').val(),$('#dayFrom').val(),$('#dayTo').val(),'electricalDegree','电度');
                         break;
                     case 'leakageElectricity':
-                        c.yAxis[0].setTitle({text:'安培(A)'});
+                        c.yAxis[0].setTitle({text:'漏电流(毫安培)'});
                         getDataList(c,$('#sbbId').val(),$('#dayFrom').val(),$('#dayTo').val(),'leakageElectricity','漏电流');
+                        break;
+                    case 'activePower':
+                        c.yAxis[0].setTitle({text:'有功功率(瓦)'});
+                        getDataList(c,$('#sbbId').val(),$('#dayFrom').val(),$('#dayTo').val(),'activePower','有功功率');
+                        break;
+                    case 'powerFactor':
+                        c.yAxis[0].setTitle({text:'功率因数'});
+                        getDataList(c,$('#sbbId').val(),$('#dayFrom').val(),$('#dayTo').val(),'powerFactor','功率因数');
                         break;
                 }
             });

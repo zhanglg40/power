@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.power.data.dao.AlertDetailDao">
+    
+	<sql id="alertDetailColumns">
+		a.id AS "id",
+
+		a.power_factor AS "powerFactor",
+		a.active_power AS "activePower",
+		a.reactive_power AS "reactivePower",
+		a.apparent_power AS "apparentPower",
+		a.temperature_a AS "temperatureA",
+		a.temperature_b AS "temperatureB",
+		a.temperature_c AS "temperatureC",
+		a.temperature_n AS "temperatureN",
+		a.current_a AS "currentA",
+		a.current_b AS "currentB",
+		a.current_c AS "currentC",
+		a.voltage_a AS "voltageA",
+		a.voltage_b AS "voltageB",
+		a.voltage_c AS "voltageC",
+		a.electrical_degree AS "electricalDegree",
+		a.leakage_electricity AS "leakageElectricity"
+	</sql>
+	
+	<sql id="alertDetailJoins">
+	</sql>
+    
+	<select id="get" resultType="AlertDetail">
+		SELECT 
+			<include refid="alertDetailColumns"/>
+		FROM tb_alert_detail a
+		<include refid="alertDetailJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="AlertDetail">
+		SELECT
+       td.sbb_name AS sbbName, d.device_id AS "sbbId",<include refid="alertDetailColumns"/>
+		FROM sys_user_device d
+		LEFT JOIN tb_alert_detail a on d.device_id=a.sbb_id
+        LEFT JOIN tb_device td on cast(td.id as varchar(36)) = d.device_id
+        <where>
+            user_id = #{createBy.id} AND d.device_type='1'
+			<if test="sbbId != null and sbbId != ''">
+				AND a.sbb_id = #{sbbId}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="AlertDetail">
+		SELECT 
+			<include refid="alertDetailColumns"/>
+		FROM tb_alert_detail a
+		<include refid="alertDetailJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO tb_alert_detail(
+
+			sbb_id,
+			power_factor,
+			active_power,
+			reactive_power,
+			apparent_power,
+			temperature_a,
+			temperature_b,
+			temperature_c,
+			temperature_n,
+			current_a,
+			current_b,
+			current_c,
+			voltage_a,
+			voltage_b,
+			voltage_c,
+			electrical_degree,
+			leakage_electricity
+		) VALUES (
+
+			#{sbbId},
+			#{powerFactor},
+			#{activePower},
+			#{reactivePower},
+			#{apparentPower},
+			#{temperatureA},
+			#{temperatureB},
+			#{temperatureC},
+			#{temperatureN},
+			#{currentA},
+			#{currentB},
+			#{currentC},
+			#{voltageA},
+			#{voltageB},
+			#{voltageC},
+			#{electricalDegree},
+			#{leakageElectricity}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE tb_alert_detail SET 	
+			sbb_id = #{sbbId},
+			power_factor = #{powerFactor},
+			active_power = #{activePower},
+			reactive_power = #{reactivePower},
+			apparent_power = #{apparentPower},
+			temperature_a = #{temperatureA},
+			temperature_b = #{temperatureB},
+			temperature_c = #{temperatureC},
+			temperature_n = #{temperatureN},
+			current_a = #{currentA},
+			current_b = #{currentB},
+			current_c = #{currentC},
+			voltage_a = #{voltageA},
+			voltage_b = #{voltageB},
+			voltage_c = #{voltageC},
+			electrical_degree = #{electricalDegree},
+			leakage_electricity = #{leakageElectricity}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM tb_alert_detail
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

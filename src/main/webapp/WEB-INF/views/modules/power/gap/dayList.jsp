@@ -101,11 +101,11 @@
                         getDataList(c,$('#sbbId').val(),$('#checkDate').val(),'leakageElectricity','漏电流');
                         break;
                     case 'activePower':
-                        c.yAxis[0].setTitle({text:'瓦(W)'});
+                        c.yAxis[0].setTitle({text:'有功功率(瓦)'});
                         getDataList(c,$('#sbbId').val(),$('#checkDate').val(),'activePower','有功功率');
                         break;
                     case 'powerFactor':
-                        c.yAxis[0].setTitle({text:'%'});
+                        c.yAxis[0].setTitle({text:'功率因数'});
                         getDataList(c,$('#sbbId').val(),$('#checkDate').val(),'powerFactor','功率因数');
                         break;
                 }
