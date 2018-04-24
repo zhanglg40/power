@@ -1,20 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ba13734d-0af2-436c-ba3d-f212366f0ced" name="Default" comment="first">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/power/data/dao/AlertDetailDao.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/power/data/entity/AlertDetail.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/power/data/service/AlertDetailService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/power/data/web/AlertDetailController.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/mappings/modules/power/AlertDetailDao.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/modules/power/alert/alertDetailForm.jsp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/modules/power/alert/alertDetailList.jsp" />
+    <list default="true" id="ba13734d-0af2-436c-ba3d-f212366f0ced" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/mappings/modules/power/DeviceDao.xml" afterPath="$PROJECT_DIR$/src/main/resources/mappings/modules/power/DeviceDao.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/include/head2.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/include/head2.jsp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/modules/power/gap/dayList.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/modules/power/gap/dayList.jsp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/modules/power/gap/monthList.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/modules/power/gap/monthList.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/modules/power/gap/yearListLine.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/modules/power/gap/yearListLine.jsp" />
     </list>
     <ignored path="power_cloud_manager.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -108,21 +98,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="yearListLine.jsp" pinned="false" current-in-tab="true">
+      <file leaf-file-name="yearListLine.jsp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/modules/power/gap/yearListLine.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="208">
-              <caret line="102" column="51" selection-start-line="102" selection-start-column="51" selection-end-line="102" selection-end-column="59" />
+            <state relative-caret-position="142">
+              <caret line="78" column="58" selection-start-line="78" selection-start-column="51" selection-end-line="78" selection-end-column="58" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="monthList.jsp" pinned="false" current-in-tab="false">
+      <file leaf-file-name="monthList.jsp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/modules/power/gap/monthList.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="94" column="54" selection-start-line="94" selection-start-column="50" selection-end-line="94" selection-end-column="54" />
+            <state relative-caret-position="-1164">
+              <caret line="94" column="59" selection-start-line="94" selection-start-column="51" selection-end-line="94" selection-end-column="59" />
               <folding />
             </state>
           </provider>
@@ -131,8 +121,8 @@
       <file leaf-file-name="dayList.jsp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/modules/power/gap/dayList.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="341">
-              <caret line="109" column="30" selection-start-line="102" selection-start-column="18" selection-end-line="109" selection-end-column="30" />
+            <state relative-caret-position="-803">
+              <caret line="99" column="59" selection-start-line="99" selection-start-column="59" selection-end-line="99" selection-end-column="59" />
               <folding />
             </state>
           </provider>
@@ -220,9 +210,9 @@
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/modules/power/alert/alertDetailForm.jsp" />
         <option value="$PROJECT_DIR$/src/main/resources/mappings/modules/power/AlertDetailDao.xml" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/include/head2.jsp" />
-        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/modules/power/gap/dayList.jsp" />
-        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/modules/power/gap/monthList.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/modules/power/gap/yearListLine.jsp" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/modules/power/gap/monthList.jsp" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/modules/power/gap/dayList.jsp" />
       </list>
     </option>
   </component>
@@ -1678,7 +1668,7 @@
       <workItem from="1523201592655" duration="1364000" />
       <workItem from="1523979865391" duration="16203000" />
       <workItem from="1524160433670" duration="27398000" />
-      <workItem from="1524492101689" duration="2519000" />
+      <workItem from="1524492101689" duration="4094000" />
     </task>
     <task id="LOCAL-00001" summary="first">
       <created>1524320402507</created>
@@ -1687,11 +1677,18 @@
       <option name="project" value="LOCAL" />
       <updated>1524320402507</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="first">
+      <created>1524528173647</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1524528173647</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="352711000" />
+    <option name="totallyTimeSpent" value="354286000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -2312,6 +2309,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="44">
           <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2319,6 +2317,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="509">
           <caret line="193" column="32" selection-start-line="193" selection-start-column="32" selection-end-line="193" selection-end-column="32" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2553,26 +2554,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/modules/power/gap/yearListLine.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="142">
+          <caret line="78" column="58" selection-start-line="78" selection-start-column="51" selection-end-line="78" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/modules/power/gap/dayList.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="341">
-          <caret line="109" column="30" selection-start-line="102" selection-start-column="18" selection-end-line="109" selection-end-column="30" />
+        <state relative-caret-position="-803">
+          <caret line="99" column="59" selection-start-line="99" selection-start-column="59" selection-end-line="99" selection-end-column="59" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/modules/power/gap/monthList.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="94" column="54" selection-start-line="94" selection-start-column="50" selection-end-line="94" selection-end-column="54" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/modules/power/gap/yearListLine.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="102" column="51" selection-start-line="102" selection-start-column="51" selection-end-line="102" selection-end-column="59" />
+        <state relative-caret-position="-1164">
+          <caret line="94" column="59" selection-start-line="94" selection-start-column="51" selection-end-line="94" selection-end-column="59" />
           <folding />
         </state>
       </provider>

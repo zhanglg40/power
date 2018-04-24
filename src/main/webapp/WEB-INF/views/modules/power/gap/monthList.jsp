@@ -68,31 +68,31 @@
                 var sbbType=$('#sbbType').val();
                 switch (sbbType){
                     case 'temperature':
-                        c.yAxis[0].setTitle({text:'摄氏度(℃)'});
+                        c.yAxis[0].setTitle({text:'温度(摄氏度)'});
                         getDataList(c,$('#sbbId').val(),$('#dayFrom').val(),$('#dayTo').val(),'temperatureA','温度A');
                         getDataList(c,$('#sbbId').val(),$('#dayFrom').val(),$('#dayTo').val(),'temperatureB','温度B');
                         getDataList(c,$('#sbbId').val(),$('#dayFrom').val(),$('#dayTo').val(),'temperatureC','温度C');
                         getDataList(c,$('#sbbId').val(),$('#dayFrom').val(),$('#dayTo').val(),'temperatureN','温度N');
                         break;
                     case 'current':
-                        c.yAxis[0].setTitle({text:'安培(A)'});
+                        c.yAxis[0].setTitle({text:'电流(安培)'});
                         getDataList(c,$('#sbbId').val(),$('#dayFrom').val(),$('#dayTo').val(),'currentA','电流A');
                         getDataList(c,$('#sbbId').val(),$('#dayFrom').val(),$('#dayTo').val(),'currentB','电流B');
                         getDataList(c,$('#sbbId').val(),$('#dayFrom').val(),$('#dayTo').val(),'currentC','电流C');
                         break;
                     case 'voltage':
-                        c.yAxis[0].setTitle({text:'伏特(V)'});
+                        c.yAxis[0].setTitle({text:'电压(伏特)'});
                         getDataList(c,$('#sbbId').val(),$('#dayFrom').val(),$('#dayTo').val(),'voltageA','电压A');
                         getDataList(c,$('#sbbId').val(),$('#dayFrom').val(),$('#dayTo').val(),'voltageB','电压B');
                         getDataList(c,$('#sbbId').val(),$('#dayFrom').val(),$('#dayTo').val(),'voltageC','电压C');
                         break;
 
                     case 'electricalDegree':
-                        c.yAxis[0].setTitle({text:'度数(kWh)'});
+                        c.yAxis[0].setTitle({text:'用电量(度)'});
                         getDataList(c,$('#sbbId').val(),$('#dayFrom').val(),$('#dayTo').val(),'electricalDegree','电度');
                         break;
                     case 'leakageElectricity':
-                        c.yAxis[0].setTitle({text:'安培(A)'});
+                        c.yAxis[0].setTitle({text:'漏电流(毫安培)'});
                         getDataList(c,$('#sbbId').val(),$('#dayFrom').val(),$('#dayTo').val(),'leakageElectricity','漏电流');
                         break;
                     case 'activePower':
