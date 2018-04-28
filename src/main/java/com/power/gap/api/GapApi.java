@@ -191,6 +191,7 @@ public class GapApi {
 		Date date1  = sdf.parse(dateFrom);
 		Calendar cale = null;
 		cale = Calendar.getInstance();
+		cale.setTime(date1);
 		cale.add(Calendar.MONTH, 1);
 		cale.set(Calendar.DAY_OF_MONTH, 0);
 		Date date2=cale.getTime();

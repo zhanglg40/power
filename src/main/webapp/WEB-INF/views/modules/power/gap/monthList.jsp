@@ -42,9 +42,11 @@
                     backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
                 },
                 xAxis: {
-                    categories:[]
+                    categories:[],
                       //  hourList
-
+                    title: {
+                        text: '时间'
+                    }
                 },
                 yAxis: {
                     title: {
