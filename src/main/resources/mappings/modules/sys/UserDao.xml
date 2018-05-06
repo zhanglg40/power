@@ -314,7 +314,9 @@
 		UPDATE sys_user SET 
 			email = #{email}, 
 			phone = #{phone}, 
-			mobile = #{mobile}, 
+			mobile = #{mobile},
+			condition=#{condition},
+			sbb_id=#{sbbId},
 			update_by = #{updateBy.id}, 
 			update_date = #{updateDate}, 
 			remarks = #{remarks},

@@ -50,36 +50,36 @@
 						</div>
 						</a>
 					</div>
-					<div class="col-lg-4 col-md-4  col-sm-4 col-xs-4">
+				<div class="col-lg-4 col-md-4  col-sm-4 col-xs-4">
 						<a class="dashboard-stat dashboard-stat-light red-soft" href="#">
 						<div class="visual">
 							<i class="fa fa-trophy"></i>
 						</div>
 						<div class="details">
 							<div class="number">
-								 0
+
 							</div>
 							<div class="desc">
-								 今日报警数量
+
 							</div>
 						</div>
 						</a>
 					</div>
-					<div class="col-lg-4 col-md-4  col-sm-4 col-xs-4">
-						<a class="dashboard-stat dashboard-stat-light green-soft" href="#">
-						<div class="visual">
-							<i class="fa fa-shopping-cart"></i>
-						</div>
-						<div class="details">
-							<div class="number">
-								 1
-							</div>
-							<div class="desc">
-								 今日访问用户
-							</div>
-						</div>
-						</a>
-					</div>
+					<%--<div class="col-lg-4 col-md-4  col-sm-4 col-xs-4">
+                    <a class="dashboard-stat dashboard-stat-light green-soft" href="#">
+                    <div class="visual">
+                        <i class="fa fa-shopping-cart"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number">
+                             1
+                        </div>
+                        <div class="desc">
+                             今日访问用户
+                        </div>
+                    </div>
+                    </a>
+                </div>--%>
 
 				</div>
 				<!-- END DASHBOARD STATS -->

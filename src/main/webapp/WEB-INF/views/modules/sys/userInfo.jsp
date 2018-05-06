@@ -65,9 +65,20 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">电话:</label>
+			<label class="control-label">首页显示:</label>
 			<div class="controls">
-				<form:input path="phone" htmlEscape="false" maxlength="50"/>
+				<label >设备名称:</label>
+				<form:select path="sbbId" class="input-medium" ismultiple="true">
+
+					<form:options items="${deviceList}"
+								  itemLabel="sbbName" itemValue="sbbId" htmlEscape="false" />
+				</form:select>
+				<label >维度:</label>
+				<form:select path="condition" class="input-large">
+					<form:options items="${fns:getDictList('condition')}"
+								  itemLabel="label" itemValue="value" htmlEscape="false" />
+				</form:select>
+
 			</div>
 		</div>
 		<div class="control-group">

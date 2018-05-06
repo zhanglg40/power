@@ -46,7 +46,8 @@ public class User extends DataEntity<User> {
 	private Boolean sendFlag;
 	private String oldLoginName;// 原登录名
 	private String newPassword;	// 新密码
-	
+	private String condition;
+	private String sbbId;
 	private String oldLoginIp;	// 上次登陆IP
 	private Date oldLoginDate;	// 上次登陆日期
 	
@@ -363,5 +364,21 @@ public class User extends DataEntity<User> {
 
 	public void setSendFlag(Boolean sendFlag) {
 		this.sendFlag = sendFlag;
+	}
+
+	public String getCondition() {
+		return condition;
+	}
+
+	public void setCondition(String condition) {
+		this.condition = condition;
+	}
+
+	public String getSbbId() {
+		return sbbId;
+	}
+
+	public void setSbbId(String sbbId) {
+		this.sbbId = sbbId;
 	}
 }

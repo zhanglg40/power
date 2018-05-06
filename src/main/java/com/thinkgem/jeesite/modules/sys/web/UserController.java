@@ -10,6 +10,7 @@ import com.power.common.dao.DeviceDao;
 import com.power.common.entity.Device2Entity;
 import com.power.common.entity.DeviceEntity;
 import com.power.common.entity.UserDevice;
+import com.power.common.service.DeviceService;
 import com.thinkgem.jeesite.common.beanvalidator.BeanValidators;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
@@ -46,7 +47,8 @@ import java.util.Map;
 @Controller
 @RequestMapping(value = "${adminPath}/sys/user")
 public class UserController extends BaseController {
-
+	@Autowired
+	private DeviceService deviceService;
 	@Autowired
 	private SystemService systemService;
 	@Autowired
@@ -318,6 +320,9 @@ public class UserController extends BaseController {
 	@RequestMapping(value = "info")
 	public String info(User user, HttpServletResponse response, Model model) {
 		User currentUser = UserUtils.getUser();
+		String userId = currentUser.getLoginName();
+		List<DeviceEntity> deviceList=  deviceService.findListByUser(userId);
+		model.addAttribute("deviceList", deviceList);
 		if (StringUtils.isNotBlank(user.getName())){
 			if(Global.isDemoMode()){
 				model.addAttribute("message", "演示模式，不允许操作！");
