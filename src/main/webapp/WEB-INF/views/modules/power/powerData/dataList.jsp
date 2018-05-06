@@ -12,7 +12,15 @@
             $("#searchForm").submit();
             return false;
         }
-       
+        function exportDialog() {
+            top.$.jBox.confirm("确认要导出 数据吗？","系统提示",function(v,h,f){
+                if(v=="ok"){
+                    $("#searchForm").attr("action","${ctx}/power/powerData/exportFile");
+                    $("#searchForm").submit();
+                }
+            },{buttonsFocus:1});
+            top.$('.jbox-body .jbox-icon').css('top','55px');
+        }
     </script>
 </head>
 <body>
@@ -40,17 +48,18 @@
                 <sys:treeselect id="qyId" name="qyId" value="${office.area.id}" labelName="area.name" labelValue="${office.area.name}"
 					title="区域" url="/sys/area/treeData"  cssClass="input-mini required"/>
 			</li>
-        <li><label>时间：&nbsp;</label><input id="dateFrom" name="dateFrom" type="text" readonly="readonly" maxlength="20" class="input-mini Wdate"
+        <li><label>时间：&nbsp;</label><input id="dateFrom" value="${powerDataEntity.dateFrom}" name="dateFrom" type="text" readonly="readonly" maxlength="20" class="input-mini Wdate"
                   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
                   --
-                  <input id="dateTo" name="dateTo" type="text" readonly="readonly" maxlength="20" class="input-mini Wdate"
+                  <input id="dateTo" name="dateTo" type="text"  value="${powerDataEntity.dateTo}"  maxlength="20"  readonly="readonly" class="input-mini Wdate"
                   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
         </li>
 
        <li class="btns">&nbsp;&nbsp;
             <input id="btnSubmit" class="btn btn-primary" type="submit" value="查询" onclick="return page();"/>
-           <a class="btn btn-primary" href="${ctx}/power/powerData/exportFile"> 导出Excel</a>
+
         </li>
+        <li><a class="btn btn-primary" onclick="exportDialog()"> 批量导出 </a></li>
         <li class="clearfix"></li>
     </ul>
 </form:form>

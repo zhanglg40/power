@@ -39,18 +39,8 @@ public class MenuApi {
         obj1.put("image_url", "nav2.png");
         obj1.put("title", "电力数据");
         list.add(obj1);
-        JSONObject obj2=new JSONObject();
-        obj2.put("id", "3");
-        obj2.put("image_url", "nav3.png");
-        obj2.put("path", "srhOH");
-        obj2.put("title", "其他数据");
-        list.add(obj2);
-        JSONObject obj3=new JSONObject();
-        obj3.put("id", "4");
-        obj3.put("path", "alertData");
-        obj3.put("image_url", "nav4.png");
-        obj3.put("title", "报警数据");
-        list.add(obj3);
+
+
         JSONObject obj4=new JSONObject();
         obj4.put("id", "5");
         obj4.put("path", "srhYear");
@@ -75,6 +65,24 @@ public class MenuApi {
         obj7.put("image_url", "nav8.png");
         obj7.put("title", "电力实时");
         list.add(obj7);
+		JSONObject obj3=new JSONObject();
+		obj3.put("id", "4");
+		obj3.put("path", "alertData");
+		obj3.put("image_url", "nav4.png");
+		obj3.put("title", "报警数据");
+		list.add(obj3);
+		JSONObject obj8=new JSONObject();
+		obj8.put("id", "9");
+		obj8.put("path", "advice");
+		obj8.put("image_url", "nav9.png");
+		obj8.put("title", "安检建议");
+		list.add(obj8);
+		JSONObject obj2=new JSONObject();
+		obj2.put("id", "3");
+		obj2.put("image_url", "nav3.png");
+		obj2.put("path", "srhOH");
+		obj2.put("title", "其他数据");
+		list.add(obj2);
         return list;
     }
 }

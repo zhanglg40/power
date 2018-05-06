@@ -26,6 +26,12 @@
         <if test="sbbId != null and sbbId !=''">
           AND s.sbb_ID= #{sbbId}
         </if>
+        <if test="dateFrom != null and dateFrom !=''">
+            AND  create_date <![CDATA[>=]]> #{dateFrom}
+        </if>
+        <if test="dateTo != null and dateTo !=''">
+            AND  create_date <![CDATA[<=]]> #{dateTo}
+        </if>
         order by create_date desc
 	</select>
 	

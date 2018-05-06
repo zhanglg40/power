@@ -66,6 +66,8 @@
     	a.password,
     	a.no,
 		a.name,
+        a.condition,
+        a.sbb_id,
 		a.email,
 		a.phone,
 		a.mobile,

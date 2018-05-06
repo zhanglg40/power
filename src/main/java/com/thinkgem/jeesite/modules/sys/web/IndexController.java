@@ -3,7 +3,6 @@
  */
 package com.thinkgem.jeesite.modules.sys.web;
 
-import com.alibaba.fastjson.JSON;
 import com.power.common.entity.Device2Entity;
 import com.power.common.entity.DeviceEntity;
 import com.power.common.service.Device2EntityService;
@@ -23,7 +22,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -52,6 +54,7 @@ public class IndexController {
         List<AlertEntity> alertList=new ArrayList<AlertEntity>();
         List<AlertEntity> alertList1=alertService.list();
         User user = UserUtils.getUser();
+
         int b=0;
         for(AlertEntity entity :alertList1){
             alertList.add(entity);
@@ -79,7 +82,25 @@ public class IndexController {
         }
         List<String> ll=new ArrayList<String>();
         model.addAttribute("deviceList", deviceList);
-
+		if(StringUtils.isNotBlank(user.getSbbId())){
+			model.addAttribute("sbbId", user.getSbbId());
+			String sbbName="";
+			for(DeviceEntity p:lds){
+				if(user.getSbbId().equals(p.getSbbId())){
+					sbbName=p.getSbbName();
+					break;
+				}
+			}
+			model.addAttribute("sbbName", sbbName);
+		}else if(lds.size()>0){
+			model.addAttribute("sbbId", lds.get(0).getSbbId());
+			model.addAttribute("sbbName", lds.get(0).getSbbName());
+		}
+		if(StringUtils.isNotBlank(user.getCondition())){
+			model.addAttribute("condition", user.getCondition());
+		}else  {
+			model.addAttribute("condition", "temperature");
+		}
         if(StringUtils.isBlank(monitoringData.getSbbId())){
 			if(deviceList==null||deviceList.size()==0){
 				device=null;
@@ -115,7 +136,7 @@ public class IndexController {
 			cal.add(Calendar.MINUTE, -60);
 			Date dateFrom=cal.getTime();
 			monitoringData.setBeginCreateDate(dateFrom);
-			List<Map<String,Object>> lst=new ArrayList<Map<String,Object>>();
+/*			List<Map<String,Object>> lst=new ArrayList<Map<String,Object>>();
 			for(String area:ll){
 				monitoringData.setAreaId(area);
 				List<MonitoringData> list=monitoringDataService.findList(monitoringData);
@@ -150,7 +171,7 @@ public class IndexController {
 				lst.add(data);
 			}
 			String datas = JSON.toJSONString(lst, true);
-			model.addAttribute("data", datas);
+			model.addAttribute("data", datas);*/
 		}
 
         return "modules/sys/index";

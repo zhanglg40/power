@@ -63,11 +63,15 @@ public class PowerDataController  extends BaseController{
 	public String exportFile(PowerDataEntity powerDataEntity, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
 		try {
 			String fileName = "设备数据"+ DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
-			Page<PowerDataEntity> page1 = new Page<PowerDataEntity>(request, response);
-			page1.setPageNo(1);
-			page1.setPageSize(10000);
-			Page<PowerDataEntity> page  =   page = powerDataService.findList(new Page<PowerDataEntity>(request, response), powerDataEntity);
-			new ExportExcel("设备数据", PowerDataEntity.class).setDataList(page.getList()).write(response, fileName).dispose();
+
+			if(StringUtils.isBlank(powerDataEntity.getSbbId())){
+				String userId = UserUtils.getUser().getLoginName();
+				List<DeviceEntity> deviceList=  deviceService.findListByUser(userId);
+					powerDataEntity.setSbbId(deviceList.get(0).getSbbId());
+
+			}
+			List<PowerDataEntity> page1   = powerDataService.findAllList(powerDataEntity);
+			new ExportExcel("设备数据", PowerDataEntity.class).setDataList(page1).write(response, fileName).dispose();
 			return null;
 		} catch (Exception e) {
 			addMessage(redirectAttributes, "导出失败！失败信息："+e.getMessage());

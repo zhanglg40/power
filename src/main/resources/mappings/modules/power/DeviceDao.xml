@@ -104,7 +104,7 @@
 	<insert id="insert">
 	  insert into tb_device
 	  (sbb_name,
-	  qy_id,
+
 	  longitude,
 	  latitude,
 	  lot_name,
@@ -117,7 +117,7 @@
 	  values
 	  (
 	  #{sbbName},
-	  #{qyId},
+
 	  #{longitude},
 	   #{latitude},
 	   #{internetNo},

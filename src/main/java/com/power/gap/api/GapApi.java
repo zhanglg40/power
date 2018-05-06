@@ -308,6 +308,7 @@ public class GapApi {
                     try {
                         Map<String,Object> mgap=new HashMap<String, Object>();
                         mgap.put("time",DateUtils.formatDate(gap.getDateTo(),"HH:mm"));
+						mgap.put("date", gap.getDateTo() );
                        // mgap.put("itemType",itemType);
                         String name =field.getName();
                         name = name.replaceFirst(name.substring(0, 1), name.substring(0, 1)

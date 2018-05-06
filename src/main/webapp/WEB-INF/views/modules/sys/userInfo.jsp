@@ -68,6 +68,7 @@
 			<label class="control-label">首页显示:</label>
 			<div class="controls">
 				<label >设备名称:</label>
+
 				<form:select path="sbbId" class="input-medium" ismultiple="true">
 
 					<form:options items="${deviceList}"
@@ -75,8 +76,7 @@
 				</form:select>
 				<label >维度:</label>
 				<form:select path="condition" class="input-large">
-					<form:options items="${fns:getDictList('condition')}"
-								  itemLabel="label" itemValue="value" htmlEscape="false" />
+                    <form:options items="${fns:getDictList('power_type')}" itemLabel="label" itemValue="value" htmlEscape="false" />
 				</form:select>
 
 			</div>

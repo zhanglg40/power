@@ -3,17 +3,16 @@
  */
 package com.power.data.service;
 
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.power.data.dao.PowerDataDao;
 import com.power.data.entity.PowerDataEntity;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
-import com.github.pagehelper.PageInfo;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 /**
  * 
  * @team IT Team
@@ -40,8 +39,14 @@ public class PowerDataService  extends CrudService<PowerDataDao,PowerDataEntity>
         page.setList(dao.findList(powerDataEntity));
         return page;
     }
+	public  List<PowerDataEntity> findAllList( PowerDataEntity powerDataEntity) {
+		// TODO Auto-generated method stub
 
-    /**
+		return dao.findList(powerDataEntity);
+	}
+
+
+	/**
      * 
      * @author zhanglg
      * @time  2017年5月30日

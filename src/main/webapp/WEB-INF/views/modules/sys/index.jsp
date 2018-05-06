@@ -25,13 +25,15 @@
 <link href="${ctxStatic}/layout2/css/custom.css" rel="stylesheet" type="text/css"/>
 	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=QjyPWS1Y9fbRaCnAPsgUeWRjHeUpEUDS"></script>
 <body>
-	<h5 class="page-title">
+	<h5 class="page-title" style="background: space">
 				首页</h5>
+    <input type="hidden" id="condition" value="${condition}"/>
+    <input type="hidden" id="sbbIdS" value="${sbbId}"/>
 		<div class="row">
 			<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
 				<!-- BEGIN DASHBOARD STATS -->
 				<div class="row">
-					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+				<%--	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 						<a class="dashboard-stat dashboard-stat-light blue-soft" href="#">
 						<div class="visual">
 							<i class="fa fa-comments"></i>
@@ -42,15 +44,15 @@
 							</div>
 							
 							<div class="desc">
-								上次登录时间： <fmt:formatDate value="${user.oldLoginDate}" pattern="yyyy-MM-dd HH:mm:ss"/></span>
+								上次登录时间： <fmt:formatDate value="${user.oldLoginDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 							</div>
 							<div class="desc">
 								上次登录IP： ${user.oldLoginIp}
 							</div>
 						</div>
 						</a>
-					</div>
-				<div class="col-lg-4 col-md-4  col-sm-4 col-xs-4">
+					</div>--%>
+	<%--			<div class="col-lg-4 col-md-4  col-sm-4 col-xs-4">
 						<a class="dashboard-stat dashboard-stat-light red-soft" href="#">
 						<div class="visual">
 							<i class="fa fa-trophy"></i>
@@ -64,7 +66,7 @@
 							</div>
 						</div>
 						</a>
-					</div>
+					</div>--%>
 					<%--<div class="col-lg-4 col-md-4  col-sm-4 col-xs-4">
                     <a class="dashboard-stat dashboard-stat-light green-soft" href="#">
                     <div class="visual">
@@ -87,6 +89,33 @@
 				</div>
 			    <div class="row">
 					<div class="col-md-4 col-sm-4">
+                        <div class="portlet   calendar ">
+                            <div class="portlet-title ">
+                                <div class="caption">
+                                    <i class="icon-calendar font-green-sharp"></i>
+                                    <span class="caption-subject font-green-sharp bold uppercase">登录信息</span>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                            <a class="dashboard-stat dashboard-stat-light blue-soft" href="#">
+                                <div class="visual">
+                                    <i class="fa fa-comments"></i>
+                                </div>
+                                <div class="details">
+                                    <div class="more">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;  ${user.name}
+                                    </div>
+
+                                    <div class="desc">
+                                        上次登录时间： <fmt:formatDate value="${user.oldLoginDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                                    </div>
+                                    <div class="desc">
+                                        上次登录IP： ${user.oldLoginIp}
+                                    </div>
+                                </div>
+                            </a>
+                                </div>
+                        </div>
 						<!-- BEGIN PORTLET-->
 						<div class="portlet light calendar ">
 							<div class="portlet-title ">
@@ -123,7 +152,7 @@
 					</div>
 					<div class="col-md-8 col-sm-8">
 
-					<div class="portlet light calendar ">
+					<div class="portlet  calendar ">
 					    <div class="portlet-title">
 								<div class="caption">
 									<i class="icon-share font-red-sunglo"></i>
@@ -149,14 +178,14 @@
 					<div class="portlet light calendar ">
 					    <div class="portlet-title">
 								<div class="caption">
-									<span class="caption-subject font-blue-sunglo bold uppercase">实时数据</span>
+									<span class="caption-subject font-blue-sunglo bold uppercase">实时数据-${sbbName}</span>
 								</div>
 								<div class="actions">
 								
 								</div>
 							</div>
 							<div class="portlet-body">
-							 <div id="container" style="min-width: 310px; height: 200px; margin: 0 auto"></div>
+							 <div id="container" style="min-width: 310px; height: 280px; margin: 0 auto"></div>
 							</div>
 						</div>
 					</div>
@@ -204,7 +233,7 @@
 
 <script src="${ctxStatic}/highchart/highcharts.src.js" type="text/javascript"></script>
 <script src="${ctxStatic}/highchart/modules/exporting.js"></script>
-<script type="text/javascript">
+<%--<script type="text/javascript">
 $(document).ready(function() {
 	// 百度地图API功能
 	var map = new BMap.Map("allmap");    // 创建Map实例
@@ -218,10 +247,11 @@ $(document).ready(function() {
 	map.setCurrentCity("永嘉县");           // 设置地图显示的城市 此项是必须设置的
 	// map.enableScrollWheelZoom(false);     //开启鼠标滚轮缩放
 });
-</script>
+</script>--%>
     <script form="text/javascript">
   
         $(function () {
+
         	  $("#monitoringType").change(function () {
         		  var id = $(this).val();
         		  $.ajax({
@@ -248,65 +278,41 @@ $(document).ready(function() {
         		 
         		
         	    });
-        	var data=${data};
-            var time='${monitoringData.dateTo}';
-        	 $(document).ready(function() {
+
+
+
         	        Highcharts.setOptions({
         	            global: {
         	                useUTC: false
         	            }
         	        });
-        	    
+
         	        var chart;
         	        $('#container').highcharts({
         	            chart: {
         	                type: 'spline',
         	                animation: Highcharts.svg, // don't animate in old IE
-        	                marginRight: 10,
-        	                events: {
-        	                    load: function() {
-        	    
-        	                        // set up the updating of the chart each second
-        	                        var series = this.series[0];
-        	                        var series1 = this.series[1];
-        	                       var i=0;
-        	                        setInterval(function() {
-        	                        
-        	                            $.ajax({
-        	                                type: 'POST',
-        	                                dataType: "json",
-        	                                async: false,
-        	                                url : '${ctx}/monitoring/monitoringData/getData',
-        	                                data:{'time':time,'sbbId':$('#sbbId1').val()},
-        	                                success : function(data){
-        	                                    	time=data.time;
-        	                                    	
-        	                                    	for(var i=0;i<data.data.length;i++){
-        	                                    	
-        	                                    		if(data.data[i].type=="1"){
-        	                                    			series.addPoint([data.data[i].x, data.data[i].y], true, true);
-        	                                    		}else{
-        	                                    			series1.addPoint([data.data[i].x, data.data[i].y], true, true);
-        	                                    		}
-        	                                    	}
-        	                                	 
-        	                                }
-        	                            });
-        	                           /*  var x = (new Date()).getTime(), // current time
-        	                                y = 1,
-        	                                z=Math.random();
-        	                            series.addPoint([x, y], true, true); */
-        	                           
-        	                        }, 298000);
-        	                    }
-        	                }
+        	                marginRight: 10
         	            },
         	            title: {
-        	                text: '其他数据实时数据监测图'
+        	                text: '实时数据监测图'
         	            },
+                        legend: {
+                            layout: 'vertical',
+                            align: 'left',
+                            verticalAlign: 'top',
+                            x: 150,
+                            y: 150,
+                            floating: true,
+                            borderWidth: 1,
+                            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+                        },
         	            xAxis: {
+                            title: {
+                                text: '时间'
+                            },
         	                type: 'datetime',
-        	                tickPixelInterval: 150
+        	                tickPixelInterval: 300
         	            },
         	            yAxis: {
         	                title: {
@@ -325,16 +331,76 @@ $(document).ready(function() {
         	                        Highcharts.numberFormat(this.y, 2);
         	                }
         	            },
-        	            legend: {
-        	                enabled: false
-        	            },
+
         	            exporting: {
         	                enabled: false
         	            },
-        	            series: data
-        	        });
-        	    });
-        	    
-        });
+        	            series: []
+        	        },function(c){
+                        var sbbType=$('#condition').val();
+                        switch (sbbType){
+                            case 'temperature':
+                                c.yAxis[0].setTitle({text:'温度(摄氏度)'});
+                                getDataList(c,$('#sbbIdS').val(),"1",'temperatureA','温度A');
+                                getDataList(c,$('#sbbIdS').val(),"1",'temperatureB','温度B');
+                                getDataList(c,$('#sbbIdS').val(),"1",'temperatureC','温度C');
+                                getDataList(c,$('#sbbIdS').val(),"1",'temperatureN','温度N');
+                                break;
+                            case 'current':
+                                c.yAxis[0].setTitle({text:'电流(安培)'});
+                                getDataList(c,$('#sbbIdS').val(),"1",'currentA','电流A');
+                                getDataList(c,$('#sbbIdS').val(),"1",'currentB','电流B');
+                                getDataList(c,$('#sbbIdS').val(),"1",'currentC','电流C');
+                                break;
+                            case 'voltage':
+                                c.yAxis[0].setTitle({text:'电压(伏特)'});
+                                getDataList(c,$('#sbbIdS').val(),"1",'voltageA','电压A');
+                                getDataList(c,$('#sbbIdS').val(),"1",'voltageB','电压B');
+                                getDataList(c,$('#sbbIdS').val(),"1",'voltageC','电压C');
+                                break;
 
+                            case 'electricalDegree':
+                                c.yAxis[0].setTitle({text:'用电量(度)'});
+                                getDataList(c,$('#sbbIdS').val(),"1",'electricalDegree','电度');
+                                break;
+                            case 'leakageElectricity':
+                                c.yAxis[0].setTitle({text:'漏电流(毫安培)'});
+                                getDataList(c,$('#sbbIdS').val(),"1",'leakageElectricity','漏电流');
+                                break;
+                            case 'activePower':
+                                c.yAxis[0].setTitle({text:'有功功率(瓦)'});
+                                getDataList(c,$('#sbbIdS').val(),"1",'activePower','有功功率');
+                                break;
+                            case 'powerFactor':
+                                c.yAxis[0].setTitle({text:'功率因数'});
+                                getDataList(c,$('#sbbIdS').val(),"1",'powerFactor','功率因数');
+                                break;
+                        }
+
+                    });
+
+
+        });
+        function getDataList(chart,sbbId,type,sbbType,title) {
+            $.ajax({
+                type: 'POST',
+                dataType: "json",
+                async: false,
+                data:{'sbbId':sbbId,'type':type,'itemType':sbbType},
+                url : '${api}/gap/realList',
+
+                success : function(data){
+                    var placelist=[];
+
+                    for(var i=0;i<data.data.length;i++){
+                        placelist.push([data.data[i].date,parseFloat(data.data[i].value)])
+                    }
+                    chart.addSeries({
+                        name:title,
+                        data:placelist
+                    });
+
+                }
+            })
+        }
     </script>

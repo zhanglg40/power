@@ -26,7 +26,7 @@
 		<ul class="ul-form">
             <li><label>设备名称：&nbsp;</label>
                 <form:select path="sbbId" class="input-medium" ismultiple="true">
-
+                    <form:option value="" label="请选择"/>
                     <form:options items="${deviceList}"
                                   itemLabel="sbbName" itemValue="sbbId" htmlEscape="false" />
                 </form:select>
