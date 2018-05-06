@@ -86,7 +86,7 @@
 				<div class="clearfix">
 				</div>
 			    <div class="row">
-					<div class="col-md-6 col-sm-6">
+					<div class="col-md-4 col-sm-4">
 						<!-- BEGIN PORTLET-->
 						<div class="portlet light calendar ">
 							<div class="portlet-title ">
@@ -97,22 +97,22 @@
 							</div>
 							<div class="portlet-body">
 								<div class="form-group">
-											<label class="col-md-5 control-label">电力设备数量：</label>
-											<div class="col-md-7">
+											<label class="col-md-7 control-label">电力设备数量：</label>
+											<div class="col-md-5">
 												<span class="help-inline">
 												${deviceCount} </span>
 											</div>
 										</div>
 											<div class="form-group">
-											<label class="col-md-5 control-label">粉尘设备数量：</label>
-											<div class="col-md-7">
+											<label class="col-md-7 control-label">粉尘设备数量：</label>
+											<div class="col-md-5">
 												<span class="help-inline">
 												${FCCount}  </span>
 											</div>
 										</div>
 											<div class="form-group">
-											<label class="col-md-5 control-label">水位设备数量：</label>
-											<div class="col-md-7">
+											<label class="col-md-7 control-label">水位设备数量：</label>
+											<div class="col-md-5">
 												<span class="help-inline">
 												${SWCount} </span>
 											</div>
@@ -121,19 +121,22 @@
 						</div>
 						<!-- END PORTLET-->
 					</div>
-					<div class="col-md-6 col-sm-6">
+					<div class="col-md-8 col-sm-8">
+
 					<div class="portlet light calendar ">
 					    <div class="portlet-title">
 								<div class="caption">
 									<i class="icon-share font-red-sunglo"></i>
-									<span class="caption-subject font-red-sunglo bold uppercase">地图</span>
+									<span class="caption-subject font-red-sunglo bold uppercase">地图</span>-<a href="${ctx}/power/alert/map" class="name">
+                                    查看大图 </a>
 								</div>
 								<div class="actions">
 								
 								</div>
 							</div>
 							<div class="portlet-body">
-							  <div id="allmap" style="width:100%;height:200px"></div>
+							<iframe id="officeContent" src="${ctx}/power/alert/map" width="100%" height="61%" frameborder="0"></iframe>
+							  <%--<div id="allmap" style="width:100%;height:200px"></div>--%>
 							</div>
 						<!-- <div id="allmap" style="width:100px;height:100px"></div> -->
 						</div>
